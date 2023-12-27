@@ -1,0 +1,5 @@
+<main class="flex w-full justify-center mt-10">
+  <section class="w-[80%] flex categoryList-section justify-center">
+    <section (click)="onSelect(category)" *ngFor="let category of categoryList"><h2>{{category}}</h2></section>
+  </section>
+</main>

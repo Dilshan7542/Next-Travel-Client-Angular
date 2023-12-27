@@ -1,0 +1,16 @@
+<div class="w-full h-full flex flex-col pt-5">
+  <h1 class="text-center">Enter Your Email And Password</h1>
+  <section class="w-full flex justify-center">
+  <form class="flex flex-col w-1/4"  (ngSubmit)="onSubmit(authForm)" #authForm='ngForm'>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" email ngModel name="email"  required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" ngModel name="pwd" required>
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="!authForm.valid">Login</button>
+  </form>
+  </section>
+</div>

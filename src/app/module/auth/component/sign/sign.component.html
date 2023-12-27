@@ -1,0 +1,56 @@
+<main class=" w-full  flex justify-center pt-5 mb-10">
+  <section class="flex justify-center w-full">
+  <form class="flex flex-col w-full items-center flex-wrap" [formGroup]="formSignGroup" (ngSubmit)="onSubmit()">
+    <div>
+    <mat-form-field>
+      <mat-label>NIC</mat-label>
+      <input matInput placeholder="NIC"   formControlName="nic">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name"  formControlName="name">
+    </mat-form-field>
+    </div>
+    <div>
+
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput placeholder="Address" formControlName="address">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" email formControlName="email">
+      </mat-form-field>
+
+    </div>
+    <div formGroupName="passwordData">
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password"  formControlName="pwd" >
+      </mat-form-field>
+    <mat-form-field class="relative">
+      <mat-label>Conform Password</mat-label>
+      <input matInput placeholder="Re-Password" formControlName="pwd2" #f>
+      <mat-hint *ngIf="!isPwdConform" class="text-sm text-red-500">password not match..</mat-hint>
+    </mat-form-field>
+
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Tel</mat-label>
+        <input matInput placeholder="Tel-Number"  formControlName="tel">
+      </mat-form-field>
+
+    </div>
+
+      <div>
+      <mat-form-field>
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..." formControlName="comment"></textarea>
+      </mat-form-field>
+      </div>
+    <button mat-raised-button color="accent" class="self-start ms-[10%]" [disabled]="!formSignGroup.valid">Register</button>
+  </form>
+
+  </section>
+</main>
