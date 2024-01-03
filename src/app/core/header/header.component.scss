@@ -1,0 +1,14 @@
+header{
+  ul{
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  li{
+    text-align: center;
+    padding: 10px;
+  cursor: pointer;
+  }
+}
