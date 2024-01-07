@@ -1,0 +1,22 @@
+
+.booking-left-wrapper>:last-child{
+
+}
+.booking-left-wrapper>:last-child>section{
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  width: 100%;
+}
+.booking-left-wrapper>:last-child>section>:nth-child(1){
+  width:40%;
+  font-weight: bold;
+  padding-right: 10px;
+}
+.booking-left-wrapper>:last-child>section>:nth-child(2){
+  font-weight: bold;
+}
+.booking-left-wrapper>:last-child>section>:nth-child(3){
+  width:60%;
+  padding-left: 10px;
+}

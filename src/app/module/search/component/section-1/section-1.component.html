@@ -1,0 +1,6 @@
+<section class="w-full h-full justify-start">
+  <select name="cars"  class=" h-full outline-0 w-full pl-[20px]" #f (change)="onSelect(f.value)">
+    <option>Location</option>
+    <option *ngFor="let location of locationList;let i = index" [value]="location">{{location}}</option>
+  </select>
+</section>

@@ -1,0 +1,11 @@
+<section class="w-full ">
+  <mat-form-field class="w-full " color="accent" >
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [min]="minDate" [formGroup]="dateFormGroup" >
+      <input matStartDate placeholder="Start date" formControlName="start" (dateChange)="onDateChange()">
+      <input matEndDate placeholder="End date" formControlName="end" (dateChange)="onDateChange()">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker ></mat-date-range-picker>
+  </mat-form-field>
+</section>

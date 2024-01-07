@@ -1,0 +1,29 @@
+<main class="w-full flex flex-col items-center mt-20">
+  <h1 class="text-3xl mb-5">Find Your Hotels</h1>
+  <aside *ngIf="isLoading" class="w-full flex justify-center items-center"><h1>Loading...</h1></aside>
+  <section *ngIf="!isLoading" class="w-[80%] flex  justify-center" id="hotel-section" #parent>
+  <section *ngFor="let hotel of hotelAr;let i=index"  (click)="onSelect(hotel,input,parent)" #f>
+   <section>
+     <img
+       [src]="hotel.image"
+       alt="">
+   </section>
+    <section><p>Hotel Name</p><p>{{": "+hotel.name}}</p></section>
+    <section><p>Email </p><p>{{": "+hotel.email}}</p></section>
+    <section><p>Location</p><p>{{": "+hotel.location}}</p></section>
+    <section><p>Star Rate</p><p>{{": "+hotel.starRate}}</p></section>
+    <section>
+      <p>Tel</p>
+      <div>
+      <p>{{": "+hotel.tel}}</p>
+      <input type="checkbox" name="hotelBox" class="border-0 w-[20px]" #input>
+      </div>
+    </section>
+
+  </section>
+  </section>
+
+
+
+</main>
+

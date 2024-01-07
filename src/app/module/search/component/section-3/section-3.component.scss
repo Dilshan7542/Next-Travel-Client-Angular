@@ -1,0 +1,47 @@
+.option-main{
+
+  p{
+    color: #0e55d2;
+  }
+  p b{
+    padding: 5%;
+    color: black;
+
+  }
+}
+
+.option-body{
+  cursor: default;
+  position: absolute;
+  display: flex;
+  background-color: white;
+  z-index: 1000;
+  top: calc(100% + 25px);
+  width: 100%;
+  flex-direction: column;
+  border-radius: 12px;
+  border: rgba(0, 0, 0, 0.29) solid 1px;
+}
+.option-body>section{
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  aside{
+    flex-grow: 1;
+    display: flex;
+    *{
+      flex-grow: 1;
+    }
+  }
+}
+.option-body>section>:first-child{
+  width: 30%;
+}
+.option-body>section>:last-child{
+  width: 70%;
+  h3{
+    font-size: x-large;
+    cursor: pointer;
+    color: #0e55d2;
+  }
+}

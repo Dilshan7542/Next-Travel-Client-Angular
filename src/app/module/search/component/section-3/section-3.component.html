@@ -1,0 +1,32 @@
+<section class="w-full h-full flex items-center relative option-main">
+  <div class="w-full h-full z-50 absolute" (click)="onCloseOptionSection()"></div>
+  <div class="w-full flex relative">
+    <p class="w-full text-center"><span>{{adultValue}}</span> <b> Adult   </b><span >{{childValue}}</span> <b> Children   </b>  <span>{{roomValue}}</span> <b> Room</b></p>
+    <div class="option-body" *ngIf="isOptionSection">
+      <section>
+        <h4>Adult</h4>
+        <aside>
+          <h3 (click)="valueIncrement('ADULT',false)">-</h3>
+          <h4>{{adultValue}}</h4>
+          <h3 (click)="valueIncrement('ADULT',true)">+</h3>
+        </aside>
+      </section>
+      <section>
+        <h4>Children</h4>
+        <aside>
+          <h3 (click)="valueIncrement('CHILD',false)">-</h3>
+          <h4>{{childValue}}</h4>
+          <h3 (click)="valueIncrement('CHILD',true)">+</h3>
+        </aside>
+      </section>
+      <section>
+        <h4>Rooms</h4>
+        <aside>
+          <h3 (click)="valueIncrement('ROOM',false)">-</h3>
+          <h4>{{roomValue}}</h4>
+          <h3 (click)="valueIncrement('ROOM',true)">+</h3>
+        </aside>
+      </section>
+    </div>
+  </div>
+</section>

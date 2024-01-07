@@ -18,10 +18,14 @@ import {MatNativeDateModule} from "@angular/material/core";
   declarations: [AppComponent, NotFoundComponent, HeaderComponent, FooterComponent,
 
   ],
-  imports: [BrowserModule,
+  imports: [
+    BrowserModule,
     NoopAnimationsModule,
     MatNativeDateModule,
-    AppRoutingModule, AuthModule,HomeModule],
+    AppRoutingModule,
+    AuthModule,
+    HomeModule
+  ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AppRequestInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })

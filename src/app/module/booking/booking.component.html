@@ -1,0 +1,45 @@
+<main class="w-full mt-10">
+  <main class="w-full flex justify-center">
+    <section class="w-1/2 flex flex-col">
+      <section class="w-full flex rounded-xl shadow-2xl booking-left-wrapper">
+        <section class="w-[50%] p-5 pe-4 flex"><img [src]="selectHotel.image" alt="Hotel-Image" class="rounded-xl w-[100%]"></section>
+        <section class="w-[50%] flex flex-col p-5 ps-0 justify-center">
+          <section><p>Hotel Name</p><h1>:</h1><p>{{selectHotel.name}}</p></section>
+          <section><p>Star Rate</p><h1>:</h1><p>{{selectHotel.starRate}}</p></section>
+          <section><p>Location</p><h1>:</h1><p>{{selectHotel.location}}</p></section>
+          <section><p>Email</p><h1>:</h1><p>{{selectHotel.email}}</p></section>
+          <section><p>Contact No</p><h1>:</h1><p>{{selectHotel.tel}}</p></section>
+          <section>
+            <p>Option</p>
+            <h1></h1>
+            <select class="border border-blue-50 outline-0">
+              <option [value]="selectHotel.option?.option1">Option1 - {{selectHotel.option?.option1}}</option>
+              <option [value]="selectHotel.option?.option2">Option2 - {{selectHotel.option?.option2}}</option>
+              <option [value]="selectHotel.option?.option3">Option3 - {{selectHotel.option?.option3}}</option>
+              <option [value]="selectHotel.option?.option4">Option4 - {{selectHotel.option?.option4}}</option>
+            </select>
+          </section>
+
+        </section>
+      </section>
+      <section class="w-full flex rounded-xl shadow-2xl booking-left-wrapper" id="vehicle-section">
+        <section class="w-[50%] p-5 pe-4 flex"><img [src]="selectHotel.image" alt="Vehicle-Image" class="rounded-xl w-[100%]"></section>
+        <section class="w-[50%] flex flex-col p-5 ps-0 justify-center">
+          <section><p>Vehicle Count</p><h1>:</h1><p>{{selectHotel.name}}</p></section>
+          <section><p>Brand Name</p><h1>:</h1><p>{{selectHotel.name}}</p></section>
+          <section><p>Fee 1Day</p><h1>:</h1><p>{{selectHotel.location}}</p></section>
+          <section><p>Fee 1KM</p><h1>:</h1><p>{{selectHotel.starRate}}</p></section>
+          <section><p>Fuel 1KM</p><h1>:</h1><p>{{selectHotel.email}}</p></section>
+          <section><p>Seat</p><h1>:</h1><p>{{selectHotel.tel}}</p></section>
+        </section>
+      </section>
+    </section>
+    <section class="w-1/2 border border-amber-900">
+        <p>location : {{searchSubject.location}}</p>
+        <p>adult : {{searchSubject.option.adult}}</p>
+        <p>room : {{searchSubject.option.room}}</p>
+        <p>child : {{searchSubject.option.child}}</p>
+        <p>date : {{searchSubject.selectDate.start}}</p>
+    </section>
+  </main>
+</main>

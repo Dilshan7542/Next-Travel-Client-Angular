@@ -1,0 +1,10 @@
+<main *ngIf="onClose" class="w-screen h-screen fixed flex justify-center items-center top-0" style="background-color: rgba(0,0,0,0.57)">
+  <section class="w-1/2 flex flex-col    shadow-2xl fixed top-[30vh] p-5" style="background-color: rgba(255,255,255,0.86)">
+    <h1 class="text-start text-xl font-bold">{{header}}</h1>
+    <h1 class="text-start">-{{message}}</h1>
+    <div class="flex w-[90%] justify-end">
+    <button  class="w-min h-min p-2 pt-0 pb-0 bg-red-600 rounded-md text-white" (click)="onCloseBtn()">cancel</button>
+    </div>
+  </section>
+
+</main>
