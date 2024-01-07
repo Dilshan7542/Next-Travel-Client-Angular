@@ -14,7 +14,13 @@ export class HotelService implements OnInit{
   hotelList:Hotel[]=[];
   onSelectElement:Subject<Hotel>=new Subject();
   selectHotelValue!:Hotel;
+
+
   constructor() {
+   const selectHotel= sessionStorage.getItem("selectHotel");
+    if(selectHotel){
+      this.selectHotelValue=JSON.parse(selectHotel);
+    }
   }
 
   ngOnInit(): void {
@@ -25,10 +31,10 @@ export class HotelService implements OnInit{
     this.hotelList=[];
   return new Promise<Hotel[]>((resolve, reject)=>{
     let img="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/a1/9c/80/essentia-luxury-hotel.jpg?w=700&h=-1&s=1";
-    this.hotelList.push({name:"Dilshan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45"});
-    this.hotelList.push({name:"Hashan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45"});
-    this.hotelList.push({name:"Iressha",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45"});
-    this.hotelList.push({name:"Punsara",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45"});
+    this.hotelList.push({name:"Dilshan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
+    this.hotelList.push({name:"Hashan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
+    this.hotelList.push({name:"Iressha",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
+    this.hotelList.push({name:"Punsara",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
       setTimeout(()=>{
         resolve(this.hotelList);
       },1500);

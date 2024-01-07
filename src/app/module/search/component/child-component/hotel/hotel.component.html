@@ -2,7 +2,7 @@
   <h1 class="text-3xl mb-5">Find Your Hotels</h1>
   <aside *ngIf="isLoading" class="w-full flex justify-center items-center"><h1>Loading...</h1></aside>
   <section *ngIf="!isLoading" class="w-[80%] flex  justify-center" id="hotel-section" #parent>
-  <section *ngFor="let hotel of hotelAr;let i=index"  (click)="onSelect(hotel,input,parent)" #f>
+  <section *ngFor="let hotel of hotelAr;let i=index"  (click)="onSelect(hotel,input,parent)" >
    <section>
      <img
        [src]="hotel.image"

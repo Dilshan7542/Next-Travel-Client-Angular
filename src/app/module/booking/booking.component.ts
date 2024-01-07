@@ -17,6 +17,8 @@ export class BookingComponent implements OnInit,OnDestroy{
  selectVehicle!:Vehicle;
  selectHotel!:Hotel;
  searchSubject!:SearchSubject;
+ vehicleCount=1;
+ hotelOption=0;
   constructor(private vehicleService:VehicleService,private hotelService:HotelService,private searchService:SearchService) {
   }
 
@@ -25,13 +27,11 @@ export class BookingComponent implements OnInit,OnDestroy{
     this.searchSubject=this.searchService.searchSubject;
   this.subscription=this.searchService.serviceDetailSub.subscribe(data=>{
      this.searchSubject=data;
+     this.getVehicleCount();
     });
    this.selectVehicle=this.vehicleService.selectVehicleValue;
-    let img="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/a1/9c/80/essentia-luxury-hotel.jpg?w=700&h=-1&s=1";
-   this.selectHotel={name:"Dilshan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",
-   option:{option1:1000,option2:1500, option3:5000,option4:5500}
-   }
- //  this.selectHotel=this.hotelService.selectHotelValue;
+   this.selectHotel=this.hotelService.selectHotelValue;
+    this.getVehicleCount();
   }
 
   ngOnDestroy(): void {
@@ -39,4 +39,23 @@ export class BookingComponent implements OnInit,OnDestroy{
     this.subscription.unsubscribe();
   }
 
+  onChange(value: number) {
+    console.log("hotel opttion :" +value);
+    this.hotelOption=value;
+  }
+
+  getVehicleCount() {
+    let headCount=this.searchSubject.option.adult+this.searchSubject.option.child;
+    let number=headCount;
+    if((headCount)> this.selectVehicle.seat){
+      let count=1;
+      while(headCount!==0 && headCount>this.selectVehicle.seat){
+        headCount -=this.selectVehicle.seat;
+        count++;
+      }
+      this.vehicleCount=count;
+    }else{
+      this.vehicleCount=1;
+    }
+  }
 }

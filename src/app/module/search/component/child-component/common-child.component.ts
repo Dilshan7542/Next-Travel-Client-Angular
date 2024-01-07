@@ -45,6 +45,7 @@ export class CommonChildComponent implements OnInit,OnDestroy{
       if(!this.vehicleService.selectVehicleValue){
       this.error="Please Select Vehicle..!!"
       }else{
+
     this.router.navigate(["../../"+this.location+"/booking"],{relativeTo:this.activeRoute});
       }
     }

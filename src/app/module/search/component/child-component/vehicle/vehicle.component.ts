@@ -19,6 +19,7 @@ export class VehicleComponent implements OnInit{
   onSelect(vehicle:Vehicle,inputElement: HTMLInputElement, parent: HTMLElement) {
     this.childService.onSelect(inputElement,parent);
     this.vehicleService.selectVehicleValue=vehicle;
+    sessionStorage.setItem("selectVehicle",JSON.stringify(vehicle));
   }
 
   ngOnInit(): void {
