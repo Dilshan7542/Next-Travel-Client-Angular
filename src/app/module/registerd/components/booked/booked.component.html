@@ -1,0 +1,41 @@
+<alert-conform *ngIf="error" [header]="'Warning!!'" [message]="error" (onClose)="onCloseAlert()" (onAction)="onActionAlert($event)"></alert-conform>
+<main class="w-full h-full flex justify-center pt-5">
+  <section class="w-[80%] flex justify-center items-center flex-col">
+  <h1 class="text-xl font-bold m-10">Your Booking Details</h1>
+  <section class="w-full">
+    <table class="w-full">
+     <thead class="bg-amber-200">
+     <tr>
+       <th>#Booking ID</th>
+       <th>Hotel</th>
+       <th>Vehicle</th>
+       <th>Location</th>
+       <th>Date</th>
+       <th>Time</th>
+       <th>Payment status</th>
+       <th>Paid Value</th>
+       <th>Action</th>
+     </tr>
+
+     </thead>
+      <tbody>
+      <tr *ngFor="let booking of bookedList">
+        <td>{{booking.bookingID}}</td>
+        <td>{{booking.hotel}}</td>
+        <td>{{booking.vehicle}}</td>
+        <td>{{booking.travel}}</td>
+        <td>{{booking.date}}</td>
+        <td>{{booking.time}}</td>
+        <td>{{booking.paymentStatus}}</td>
+        <td>{{booking.paidValue}}</td>
+        <td>
+          <button *ngIf="!booking.paymentStatus" mat-raised-button color="accent" (click)="onCancel(booking)">Cancel</button>
+          <button *ngIf="booking.paymentStatus" mat-raised-button color="accent" disabled>Paid</button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </section>
+  </section>
+</main>

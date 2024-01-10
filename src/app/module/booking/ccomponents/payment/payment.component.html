@@ -1,31 +1,77 @@
 <main class="w-full h-full">
   <section class="w-full h-full flex flex-col">
-    <section class="w-full flex justify-center items-center h-1/2">
-      <section class="w-[80%]  rounded-xl shadow-2xl p-5">
+    <section class="w-full flex justify-center items-center h-1/2 mb-5">
+      <section class="w-[80%]  rounded-xl shadow-2xl p-5 bg-white">
       <table class="w-full">
         <thead>
         <tr>
           <th>Description</th>
-          <th>Qty</th>
-          <th></th>
+          <th>Qty Desc</th>
           <th>Amount</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="w-full">
         <tr>
-         <td>Hotel Price</td> <td>{{hotelOption}}</td><td></td>
+          <td>
+            <ul>
+              <li>*Hotel Price</li>
+              <li>-Room  </li>
+              <li>-Option  </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>-</li>
+              <li>{{payment?.room}}</li>
+              <li>{{payment?.hotelOption!.toFixed(2)}}</li>
+            </ul>
+          </td>
+          <td>
+           <p>{{payment?.hotelAmount!.toFixed(2)}}</p>
+          </td>
         </tr>
         <tr>
-         <td>Vehicle Price</td> <td>{{hotelOption}}</td><td></td>
+          <td>
+            <ul>
+              <li>*Vehicle Price</li>
+              <li>-Vehicle Count  </li>
+              <li>-Vehicle Cost  </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>-</li>
+              <li>{{payment?.vehicleCount}}</li>
+              <li>{{vehicleCharge.toFixed(2)}}</li>
+            </ul>
+          </td>
+          <td>
+            <p>{{payment?.vehicleAmount!.toFixed(2)}}</p>
+          </td>
         </tr>
         <tr>
-         <td>Travel Charge Price</td> <td>{{hotelOption}}</td><td></td>
+          <td>
+            <ul>
+              <li>*Travel Charges</li>
+              <li>-Count Day  </li>
+              <li>-Count Night  </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>-</li>
+              <li>{{payment?.countDay}}</li>
+              <li>{{(payment?.countDay!-1)}}</li>
+            </ul>
+          </td>
+          <td>
+            <p>{{'0.00'}}</p>
+          </td>
         </tr>
-        <tr>
-         <td>Guide Price</td> <td>{{hotelOption}}</td><td></td>
-        </tr>
-        <tr>
-         <td>Total</td> <td>{{hotelOption}}</td><td></td>
+        <tr class="font-bold">
+         <td><ul>
+           <li>*Total</li>
+         </ul></td> <td></td><td>{{totalAmount.toFixed(2)}}</td>
         </tr>
         </tbody>
 
@@ -34,13 +80,13 @@
 
     </section>
     <section class="w-full flex justify-center items-center h-1/2">
-      <section class="w-[80%]  rounded-xl shadow-2xl p-5 flex flex-col items-center" id="payment-section">
+      <section class="w-[80%]  rounded-xl shadow-2xl p-5 flex flex-col items-center bg-white" id="payment-section">
          <section>
            <section class="w-[30%]">
            <img src="/assets/img/visa.png" alt="visa img" class="w-[80%]">
            </section>
           <section class="flex flex-col justify-center font-bold">
-            <h1 class="text-blue-800 text-xl">RS{{'50.00'}}</h1>
+            <h1 class="text-blue-800 text-xl">RS{{totalAmount}}</h1>
             <p>subscription payment</p>
           </section>
          </section>
@@ -63,14 +109,19 @@
         <section>
           <section class="w-[80%]">
           <label for="exDate" class="font-bold">Expire Date</label>
-           <input type="date" [min]="" id="exDate">
+           <input type="date" [min]="minDate" id="exDate">
           </section>
          </section>
          <section>
            <section class="w-full flex justify-center">
-             <button mat-flat-button color="accent" class="w-full">Complete Payment</button>
+             <div><p>48:45</p></div>
            </section>
          </section>
+        <section>
+          <section class="w-full flex justify-center">
+            <button mat-flat-button color="accent" class="w-full" disabled>Pending Payment</button>
+          </section>
+        </section>
       </section>
     </section>
 

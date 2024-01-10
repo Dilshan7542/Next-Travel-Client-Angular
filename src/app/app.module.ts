@@ -12,6 +12,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthModule} from "./module/auth/auth.module";
 import {HomeModule} from "./module/home/home.module";
 import {MatNativeDateModule} from "@angular/material/core";
+import {RegisteredModule} from "./module/registerd/registered.module";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatNativeDateModule,
     AppRoutingModule,
     AuthModule,
-    HomeModule
+    HomeModule,
+    RegisteredModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AppRequestInterceptor, multi: true}],
   bootstrap: [AppComponent]

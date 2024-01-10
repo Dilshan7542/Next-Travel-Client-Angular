@@ -6,6 +6,7 @@ import {CommonModule} from "@angular/common";
 import {HomeRoutingModule} from "./home-routing.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchModule} from "../search/search.module";
+import {SharedModule} from "../shared/shared.module";
 
 
 
@@ -16,13 +17,14 @@ import {SearchModule} from "../search/search.module";
     CategoryComponent,
   ],
   imports: [
+    SharedModule,
     CommonModule,
     HomeRoutingModule,
     ReactiveFormsModule,
-    SearchModule
+    SearchModule,
 
   ],
-  exports: [CommonModule,SearchModule],
+  exports: [SearchModule],
 
 })
 export class HomeModule {

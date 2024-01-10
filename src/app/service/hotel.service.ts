@@ -1,6 +1,7 @@
 import {Injectable, OnInit} from "@angular/core";
 import {Subject} from "rxjs";
 export interface Hotel{
+  hotelID?:string;
   name:string;
   image:string;
   email:string;
@@ -12,9 +13,10 @@ export interface Hotel{
 @Injectable({providedIn:"root"})
 export class HotelService implements OnInit{
   hotelList:Hotel[]=[];
-  onSelectElement:Subject<Hotel>=new Subject();
   selectHotelValue!:Hotel;
-
+  hotelAmount=0;
+  selectHotelOption=0;
+  roomCount=1;
 
   constructor() {
    const selectHotel= sessionStorage.getItem("selectHotel");
@@ -41,13 +43,15 @@ export class HotelService implements OnInit{
     });
   }
   getAllHotel() {
-   return this.initValue().then(data=>{
    return  new Promise<Hotel[]>((resolve, reject) =>{
         resolve(this.hotelList.slice());
         reject.bind(new Error("Data Not Fetch..."))
     });
 
-   });
+  }
+  hotelTotal(){
+    this.hotelAmount=this.roomCount*this.selectHotelOption;
+    return this.hotelAmount;
   }
 
 }

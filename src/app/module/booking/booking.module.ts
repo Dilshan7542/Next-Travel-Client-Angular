@@ -11,6 +11,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {AuthGuard} from "../../service/guard/auth.guard";
 
 
 @NgModule({

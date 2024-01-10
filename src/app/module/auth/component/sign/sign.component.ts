@@ -15,15 +15,16 @@ interface Customer{
   selector:"auth-sign",
   templateUrl:"sign.component.html",
   styles:[`
-  div{
+ form>div{
     display: flex;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
   }
   mat-form-field{
     width: 45%;
 
   }
+
   `]
 })
 export class SignComponent implements OnInit{

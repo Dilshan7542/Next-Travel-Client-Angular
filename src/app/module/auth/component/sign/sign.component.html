@@ -1,6 +1,7 @@
 <main class=" w-full  flex justify-center pt-5 mb-10">
-  <section class="flex justify-center w-full">
-  <form class="flex flex-col w-full items-center flex-wrap" [formGroup]="formSignGroup" (ngSubmit)="onSubmit()">
+  <section class="flex flex-col items-center pt-5 justify-center w-[70%] rounded-2xl shadow-2xl bg-white">
+    <h1 class="text-center w-full text-xl">Enter Your Legal Details</h1>
+  <form class="flex flex-col w-full items-center flex-wrap p-10 pb-20" [formGroup]="formSignGroup" (ngSubmit)="onSubmit()">
     <div>
     <mat-form-field>
       <mat-label>NIC</mat-label>
@@ -48,8 +49,10 @@
         <mat-label>Leave a comment</mat-label>
         <textarea matInput placeholder="Ex. It makes me feel..." formControlName="comment"></textarea>
       </mat-form-field>
+        <div class="flex justify-center w-1/2">
+    <button mat-raised-button color="accent" class="" [disabled]="!formSignGroup.valid" style="width: 50%!important;height: 70px!important;">Register</button>
+        </div>
       </div>
-    <button mat-raised-button color="accent" class="self-start ms-[10%]" [disabled]="!formSignGroup.valid">Register</button>
   </form>
 
   </section>

@@ -1,9 +1,21 @@
 <main class="w-full mt-10">
   <main class="w-full flex justify-center">
-    <section class="w-1/2 flex flex-col">
-      <section class="w-full flex rounded-xl shadow-md booking-left-wrapper">
-        <section class="w-[50%] p-5 pe-4 flex"><img [src]="selectHotel.image" alt="Hotel-Image" class="rounded-xl w-[100%]"></section>
-        <section class="w-[50%] flex flex-col p-5 ps-0 justify-center">
+
+    <section class="w-1/2 flex  flex-col items-center">
+      <section class="w-[90%] flex rounded-xl shadow-xl booking-left-wrapper items-center mb-5 bg-white" id="vehicle-section">
+        <section class="w-[45%] p-5 pe-4 flex"><img [src]="selectVehicle.image" alt="Vehicle-Image" class="rounded-xl w-[100%]"></section>
+        <section class="w-[55%] flex flex-col p-5 ps-0 justify-center">
+          <section><p>Vehicle Count</p><h1>:</h1><p>{{vehicleCount}}</p></section>
+          <section><p>Brand Name</p><h1>:</h1><p>{{selectVehicle.brandName}}</p></section>
+          <section><p>Fee 1Day</p><h1>:</h1><p>{{selectVehicle.fee1Day}}</p></section>
+          <section><p>Fee 1KM</p><h1>:</h1><p>{{selectVehicle.fee1KM}}</p></section>
+          <section><p>Fuel 1KM</p><h1>:</h1><p>{{selectVehicle.fee1KM}}</p></section>
+          <section><p>Seat</p><h1>:</h1><p>{{selectVehicle.seat}}</p></section>
+        </section>
+      </section>
+      <section class="w-[90%] flex rounded-xl shadow-md booking-left-wrapper bg-white">
+        <section class="w-[45%] p-5 pe-4 flex"><img [src]="selectHotel.image" alt="Hotel-Image" class="rounded-xl w-[100%]"></section>
+        <section class="w-[55%] flex flex-col p-5 ps-0 justify-center">
           <section><p>Hotel Name</p><h1>:</h1><p>{{selectHotel.name}}</p></section>
           <section><p>Star Rate</p><h1>:</h1><p>{{selectHotel.starRate}}</p></section>
           <section><p>Location</p><h1>:</h1><p>{{selectHotel.location}}</p></section>
@@ -19,23 +31,17 @@
               <option [value]="selectHotel.option?.option4">Option4 - {{selectHotel.option?.option4}}</option>
             </select>
           </section>
-
         </section>
       </section>
-      <section class="w-full flex rounded-xl shadow-xl booking-left-wrapper" id="vehicle-section">
-        <section class="w-[50%] p-5 pe-4 flex"><img [src]="selectHotel.image" alt="Vehicle-Image" class="rounded-xl w-[100%]"></section>
-        <section class="w-[50%] flex flex-col p-5 ps-0 justify-center">
-          <section><p>Vehicle Count</p><h1>:</h1><p>{{vehicleCount}}</p></section>
-          <section><p>Brand Name</p><h1>:</h1><p>{{selectVehicle.brandName}}</p></section>
-          <section><p>Fee 1Day</p><h1>:</h1><p>{{selectVehicle.fee1Day}}</p></section>
-          <section><p>Fee 1KM</p><h1>:</h1><p>{{selectVehicle.fee1KM}}</p></section>
-          <section><p>Fuel 1KM</p><h1>:</h1><p>{{selectVehicle.fee1KM}}</p></section>
-          <section><p>Seat</p><h1>:</h1><p>{{selectVehicle.seat}}</p></section>
+      <section class="w-[90%] flex justify-center h-full pt-10">
+        <section class="w-1/2 flex justify-center">
+          <button mat-flat-button color="primary"  class="w-full text-5xl" style="padding: 40px" (click)="onAddBooking()">Booking</button>
         </section>
       </section>
     </section>
     <section class="w-1/2">
-        <payment-component [hotelOption]="hotelOption"></payment-component>
+      <payment-component [payment]="payment" ></payment-component>
     </section>
+
   </main>
 </main>

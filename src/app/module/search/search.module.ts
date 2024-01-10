@@ -38,10 +38,7 @@ import {SharedModule} from "../shared/shared.module";
     ReactiveFormsModule,
     MatButtonModule,
     BookingModule
-
-
   ],
-  exports:[CommonModule],
   providers:[ChildService,SearchService]
 })
 export class SearchModule{}

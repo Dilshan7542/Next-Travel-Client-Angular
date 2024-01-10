@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Vehicle, VehicleService} from "../../../../../service/vehicle.service";
 import {ChildService} from "../child.service";
-import {map, tap} from "rxjs";
+
 
 
 

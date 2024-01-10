@@ -1,0 +1,16 @@
+<main *ngIf="onClose" class="w-screen h-screen fixed flex justify-center items-center top-0" style="background-color: rgba(0,0,0,0.57)">
+  <section class="w-1/4 flex flex-col    shadow-2xl fixed top-[30vh]" style="background-color: rgba(255,255,255,0.86)">
+    <section class="w-full  bg-red-500 p-[1px] flex justify-end items-center">
+      <p class="p-[2px] pe-1 cursor-pointer m-0 text-xl bg-red-500" (click)="onCloseBtn()">X</p>
+    </section>
+    <section class="p-5 flex flex-col w-full">
+    <h1 class="text-start text-xl font-bold p-2">{{header}}</h1>
+    <h1 class="text-start pt-2">-{{message}}</h1>
+    <div class="flex w-[90%] justify-evenly pt-4 pb-4">
+      <button  class="w-min h-min p-4 pt-1 pb-1 bg-blue-500 rounded-md text-white" (click)="onActionBtn()">Yes</button>
+      <button  class="w-min h-min p-4 pt-1 pb-1 bg-red-600 rounded-md text-white" (click)="onCloseBtn()">No</button>
+    </div>
+    </section>
+  </section>
+
+</main>

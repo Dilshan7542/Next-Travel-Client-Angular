@@ -1,53 +1,47 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {Vehicle, VehicleService} from "../../../../service/vehicle.service";
 import {Hotel, HotelService} from "../../../../service/hotel.service";
 import {SearchService} from "../../../../service/search.service";
 
-export interface Payment{
-
+export interface Payment {
+  vehicleAmount: number;
+  vehicleCount: number;
+  hotelOption: number;
+  hotelAmount: number;
+  room: number;
+  countDay?:number;
 }
+
 @Component({
-  selector:"payment-component",
-  templateUrl:"payment.component.html",
-  styles:[`
-
-    th, td {
-      text-align: start;
-      padding: 5px;
-    }
-
-    input {
-      outline: 0;
-      width: 80%;
-      border-radius: 2px;
-      box-shadow: 0 0 5px rgba(0, 0, 255, 0.34);
-      padding: 2px;
-
-    }
-
-    #payment-section>section{
-      display: flex;
-      padding: 10px;
-      width: 80%;
-    }
-    .boxShadow-custom {
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.10);
-    }
-  `]
+  selector: "payment-component",
+  templateUrl: "payment.component.html",
+  styleUrls:["payment.component.scss"]
 })
- export class PaymentComponent implements OnInit{
-  @Input() hotelOption=0;
-  selectHotel:Hotel | null=null;
-  selectVehicle:Vehicle | null=null;
+export class PaymentComponent implements OnInit, DoCheck {
+  @Input() payment: Payment | null = null;
+  selectHotel: Hotel | null = null;
+  selectVehicle: Vehicle | null = null;
+  minDate = new Date();
+  totalAmount = 0;
+  travelPrice = 0;
+  guidePrice = 0;
+  vehicleCharge=0;
 
-  constructor(private vehicleService:VehicleService,private hotelService:HotelService,private searchService:SearchService) {
+  constructor(private vehicleService: VehicleService, private hotelService: HotelService, private searchService: SearchService) {
   }
+
+
+  ngDoCheck(): void {
+    this.totalAmount=this.payment?.hotelAmount!+this.payment?.vehicleAmount!;
+    }
+
 
   ngOnInit(): void {
     this.selectHotel=this.hotelService.selectHotelValue;
     this.selectVehicle=this.vehicleService.selectVehicleValue;
-  }
+    this.vehicleCharge=this.vehicleService.vehicleCharge;
 
+  }
 
 
 

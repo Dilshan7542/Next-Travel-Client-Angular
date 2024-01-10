@@ -14,10 +14,10 @@ export interface Vehicle{
 export class VehicleService implements OnInit,OnDestroy{
   vehicleList:Vehicle[]=[];
   subscription!:Subscription;
-  test=10;
-  onSelectVehicle=new Subject<Vehicle>();
+ vehicleCharge=0;
+  vehicleCount=0;
   selectVehicleValue!:Vehicle;
-   // ={brandName:"",fuel1KM:0,fee1KM:0,fee1Day:0,image:""};
+  vehicleTotalAmount=0;
   constructor() {
   console.log("vehicle service init....");
     const selectVehicle=sessionStorage.getItem("selectVehicle");
@@ -56,5 +56,14 @@ export class VehicleService implements OnInit,OnDestroy{
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+  vehicleTotal(){
+   this.vehicleTotalAmount=this.selectVehicleValue.fee1Day;
+   this.vehicleTotalAmount +=this.selectVehicleValue.fee1KM;
+   this.vehicleTotalAmount +=this.selectVehicleValue.fuel1KM;
+   this.vehicleTotalAmount +=this.selectVehicleValue.fee1KM;
+   this.vehicleCharge=this.vehicleTotalAmount;
+   this.vehicleTotalAmount *=this.vehicleCount;
+   return this.vehicleTotalAmount;
   }
 }

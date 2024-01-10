@@ -34,12 +34,16 @@ export  class Section3Component implements OnInit{
         this.optionValue.child=this.optionBarRoute(type,this.optionValue.child);
         break;
       case "ROOM":
-        this.optionValue.child=this.optionBarRoute(type,this.optionValue.child)
+        this.optionValue.room=this.optionBarRoute(type,this.optionValue.room)
         break;
       default:
         throw new Error("invalid name input");
     }
-    this.onChangeOption({ adult:this.optionValue.adult,child:this.optionValue.child,room:this.optionValue.room});
+    this.onChangeOption({
+      adult:this.optionValue.adult,
+      child:this.optionValue.child,
+      room:this.optionValue.room
+    });
   }
   onChangeOption(option:Option){
     this.optionEmitter.emit(option);

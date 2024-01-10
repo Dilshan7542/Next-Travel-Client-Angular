@@ -6,7 +6,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {AuthComponent} from "./auth.component";
 import {CommonModule} from "@angular/common";
-import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
@@ -29,7 +28,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule
   ],
   exports: [CommonModule, LoginComponent],
-  providers:[],
+  providers:[AuthModule],
 })
 export class AuthModule{
 
