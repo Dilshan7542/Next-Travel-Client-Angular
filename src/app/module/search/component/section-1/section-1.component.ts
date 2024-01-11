@@ -6,7 +6,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, View
 })
 export class Section1Component implements OnInit{
 
-    locationList:string[]=["locations","Gampaha","Negombo","Ganemulle","Colombo"];
+    locationList:string[]=["Gampaha","Negombo","Ganemulle","Colombo"];
    @Output() onSelectLocation=new EventEmitter<string>();
 
   onSelect(selectElement:string) {
@@ -20,6 +20,8 @@ export class Section1Component implements OnInit{
     this.locationList= this.locationList.filter(l=> l!==location);
     this.locationList.unshift(location);
     this.onSelect(location);
+    }else{
+    this.locationList.unshift("Location");
     }
 
   }
