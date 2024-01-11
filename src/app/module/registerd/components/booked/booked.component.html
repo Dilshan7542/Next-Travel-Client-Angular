@@ -2,7 +2,8 @@
 <main class="w-full h-full flex justify-center pt-5">
   <section class="w-[80%] flex justify-center items-center flex-col">
   <h1 class="text-xl font-bold m-10">Your Booking Details</h1>
-  <section class="w-full">
+  <section class="w-full relative">
+      <div *ngIf="isLoadingMode" class="absolute top-[30vh] m-auto left-0 right-0 flex justify-center items-center z-[1000] font-bold"><p>Loading...</p></div>
     <table class="w-full">
      <thead class="bg-amber-200">
      <tr>
@@ -18,12 +19,12 @@
      </tr>
 
      </thead>
-      <tbody>
+      <tbody *ngIf="!isLoadingMode">
       <tr *ngFor="let booking of bookedList">
         <td>{{booking.bookingID}}</td>
-        <td>{{booking.hotel}}</td>
-        <td>{{booking.vehicle}}</td>
-        <td>{{booking.travel}}</td>
+        <td>{{JSON.parse(booking.hotel).name}}</td>
+        <td>{{JSON.parse(booking.vehicle).brandName}}</td>
+        <td>{{JSON.parse(booking.travel).location}}</td>
         <td>{{booking.date}}</td>
         <td>{{booking.time}}</td>
         <td>{{booking.paymentStatus}}</td>

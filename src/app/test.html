@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clock</title>
+</head>
+<style>
+  body{
+    margin: 0;
+    padding: 0;
+  }
+  p{
+    font-weight: bold;
+    font-size:30px;
+  }
+  main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+  mian>:first-child{
+    height: 40%;
+  }
+  main>:last-child{
+    height: 60%;
+  }
+  section{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  div{
+    display: flex;
+    width: 20%;
+  }
+  div>p{
+    padding: 10px;
+  }
+  div>:last-child{
+    color: #0e55d2;
+  }
+  input{
+    padding: 10px;
+    font-size: 20px;
+  }
+</style>
+<body>
+<main>
+  <section>
+    <div>
+      <label for="startDate">Start Date
+      <input type="date" id="startDate">
+      </label>
+    </div>
+    <div>
+      <label for="startDate">End Date
+        <input type="date" id="endDate">
+      </label>
+    </div>
+    <div>
+      <label for="expireTime">Expire Time
+        <input type="time" id="expireTime">
+      </label>
+    </div>
+  </section>
+  <section>
+    <div>
+      <p>Day :</p>
+      <p id="day">0</p>
+    </div>
+    <div>
+      <p>Hour :</p>
+      <p id="hour">0</p>
+    </div>
+    <div>
+      <p>Min :</p>
+      <p id="min">0</p>
+    </div>
+    <div>
+      <p>Second :</p>
+      <p id="second">0</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  let start = new Date(2024,0,10,18,55,0);
+   let expireDate=start;
+  expireDate.setHours(start.getHours()+4);
+
+     let dayE= document.getElementById("day");
+     let hourE= document.getElementById("hour");
+     let minE= document.getElementById("min");
+     let secondE= document.getElementById("second");
+
+  function time(){
+    let timeCount= Math.floor(expireDate.getTime()-new Date().getTime());
+    let numSecond=Math.floor(timeCount / (1000) % 60);
+
+  let numMin=Math.floor(timeCount / (1000 *60) %60);
+  let numHour=Math.floor(timeCount / (1000 * 3600)%24);
+  let numDay=Math.floor(timeCount / (1000 * 3600*24));
+    let timer=null;
+timer= setInterval(()=>{
+if(numSecond===0){
+  numSecond=59;
+    --numMin;
+  if(numMin<=0){
+    numMin=59;
+    if(numHour!==0 || numDay!==0){
+      --numHour;
+      if(numHour<0){
+        numHour=23;
+        if(numDay>0){
+          --numDay;
+        }
+    }
+    }
+  }
+}
+  if(numDay<=0 && numHour<=0 && numMin<=0 && numSecond<=0){
+    hourE.innerText="0";
+    minE.innerText="0";
+    dayE.innerText="0";
+    secondE.innerText="0";
+    clearInterval(timer);
+  }else{
+  hourE.innerText=numHour+"";
+  minE.innerText=numMin+"";
+  dayE.innerText=numDay+"";
+   secondE.innerText=""+ --numSecond;
+  }
+
+  },1000);
+
+  }
+
+time();
+
+
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {AfterContentInit, AfterViewInit, Component, OnInit} from "@angular/core";
 import {Booking, BookingService} from "../../../../service/booking.service";
 
 @Component({
@@ -6,18 +6,23 @@ import {Booking, BookingService} from "../../../../service/booking.service";
   templateUrl:"booked.component.html",
   styleUrls:["booked.component.scss"]
 })
-export class BookedComponent implements OnInit{
+export class BookedComponent{
   bookedList:Booking[]=[];
   error:string|null=null;
   onCancelBooking:Booking| null=null;
+  isLoadingMode=false;
 
   constructor(private bookingService:BookingService) {
 
   }
 
+
+
   ngOnInit(): void {
+    this.isLoadingMode=true;
     this.bookingService.getBookedList().then(bookingList=>{
       this.bookedList=bookingList;
+      this.isLoadingMode=false;
     });
   }
 
@@ -36,6 +41,11 @@ export class BookedComponent implements OnInit{
   }
 
   private cancelBooking() {
-      this.bookedList=this.bookedList.filter(booking=> booking!== this.onCancelBooking);
+    this.bookingService.bookingList=this.bookedList.filter(booking=> booking!== this.onCancelBooking);
+    this.bookedList=this.bookingService.bookingList;
+    this.bookingService.checkPendingBooking();
   }
+
+  protected readonly JSON = JSON;
+  protected readonly localStorage = localStorage;
 }

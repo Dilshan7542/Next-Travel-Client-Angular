@@ -2,12 +2,11 @@ import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Vehicle, VehicleService} from "../../service/vehicle.service";
 import {Hotel, HotelService} from "../../service/hotel.service";
 import {Subscription} from "rxjs";
-import {Option} from "../search/component/section-3/section-3.component";
 import {SearchService, SearchSubject} from "../../service/search.service";
-import {data} from "autoprefixer";
 import {Payment} from "./ccomponents/payment/payment.component";
-import {Booking, BookingService, Travel} from "../../service/booking.service";
+import {Booking, BookingService} from "../../service/booking.service";
 import {CustomerService} from "../../service/customer.service";
+import {Travel} from "../../service/travel.service";
 
 
 @Component({
@@ -22,6 +21,7 @@ export class BookingComponent implements OnInit,OnDestroy{
  payment:Payment={vehicleAmount:0,vehicleCount:1,hotelOption:0,hotelAmount:0,room:1,countDay:1};
  searchSubject!:SearchSubject;
  vehicleCount=1;
+ bookingBtn:{name:string,status:boolean}={name:"booking",status:false};
   constructor(
               private vehicleService:VehicleService,
               private hotelService:HotelService,
@@ -32,6 +32,7 @@ export class BookingComponent implements OnInit,OnDestroy{
   }
 
   ngOnInit(): void {
+    console.log("booking init");
   this.subscription=this.searchService.serviceDetailSub.subscribe(data=>{
      this.searchSubject=data;
      this.countDate(data.selectDate);
@@ -39,9 +40,15 @@ export class BookingComponent implements OnInit,OnDestroy{
      this.payment.vehicleAmount=this.vehicleService.vehicleTotal();
      this.updateHotelAmount(data.option.room,this.payment.hotelOption);
     });
+
+    this.allDataInit();
+    this.initPendingBooking();
+
+  }
+  private allDataInit() {
     this.searchSubject=this.searchService.searchSubject;
-   this.selectVehicle=this.vehicleService.selectVehicleValue;
-   this.selectHotel=this.hotelService.selectHotelValue;
+    this.selectVehicle=this.vehicleService.selectVehicleValue;
+    this.selectHotel=this.hotelService.selectHotelValue;
     this.payment.room=this.searchSubject.option.room;
     this.countDate(this.searchSubject.selectDate);
     this.getVehicleCount();
@@ -92,7 +99,6 @@ export class BookingComponent implements OnInit,OnDestroy{
 
   onAddBooking() {
     let ar = new Date().toJSON().split("T");
-
     let toDay:{day:string,time:string}={day:ar[0],time:ar[1].substring(0,5)}
     let travel:Travel={
       startDate:this.searchSubject.selectDate.start!,
@@ -115,6 +121,19 @@ export class BookingComponent implements OnInit,OnDestroy{
       paidValue:0,
       customer:this.customerService.getCustomer()!,
     };
+    this.bookingService.bookingList.push(booking);
    // this.bookingService.bookingList.push()
+  }
+
+
+  private initPendingBooking() {
+    if (this.bookingService.pendingBooking) {
+          this.bookingBtn.name="Booked";
+          this.bookingBtn.status=true;
+      console.log(this.bookingService.pendingBooking.paymentStatus);
+    }else{
+      this.bookingBtn.name="Booking";
+      this.bookingBtn.status=false;
+    }
   }
 }
