@@ -43,7 +43,7 @@ export class BookedComponent{
   private cancelBooking() {
     this.bookingService.bookingList=this.bookedList.filter(booking=> booking!== this.onCancelBooking);
     this.bookedList=this.bookingService.bookingList;
-    this.bookingService.checkPendingBooking();
+    this.bookingService.removePendingBooking();
   }
 
   protected readonly JSON = JSON;

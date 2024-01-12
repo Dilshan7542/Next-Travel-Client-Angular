@@ -13,7 +13,7 @@ export interface Hotel{
 @Injectable({providedIn:"root"})
 export class HotelService implements OnInit{
   hotelList:Hotel[]=[];
-  selectHotelValue!:Hotel;
+  selectHotel!:Hotel;
   hotelAmount=0;
   selectHotelOption=0;
   roomCount=1;
@@ -21,7 +21,7 @@ export class HotelService implements OnInit{
   constructor() {
    const selectHotel= sessionStorage.getItem("selectHotel");
     if(selectHotel){
-      this.selectHotelValue=JSON.parse(selectHotel);
+      this.selectHotel=JSON.parse(selectHotel);
     }
   }
 
@@ -49,9 +49,14 @@ export class HotelService implements OnInit{
     });
 
   }
-  hotelTotal(){
-    this.hotelAmount=this.roomCount*this.selectHotelOption;
+  hotelTotal(countDay:number){
+    this.hotelAmount=this.roomCount*this.selectHotelOption * countDay;
     return this.hotelAmount;
+  }
+ getHotelAmount(room:number,hotelOption:number,countDay:number){
+    this.roomCount=room;
+    this.selectHotelOption=hotelOption;
+  return this.hotelTotal(countDay);
   }
 
 }

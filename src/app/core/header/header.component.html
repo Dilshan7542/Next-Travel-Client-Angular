@@ -8,6 +8,7 @@
       <li><a routerLink="/auth/sign">Sign up</a></li>
     </ul>
     <ul *ngIf="isUserLogin">
+      <li><a routerLink="/home/booking">Payment</a></li>
       <li><a routerLink="/registered/booked">My Booking</a></li>
       <li><a routerLink="/registered/profile">My Profile</a></li>
       <li><a (click)="logOut()">Logout</a></li>

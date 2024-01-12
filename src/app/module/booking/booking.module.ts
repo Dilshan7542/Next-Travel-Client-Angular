@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {SharedModule} from "../shared/shared.module";
 
 
 
@@ -19,7 +20,7 @@ import {MatButtonModule} from "@angular/material/button";
     PaymentComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     RouterModule.forChild([{path: "", component: BookingComponent, canActivate: [BookingGuard]}]),
     FormsModule,
     MatFormFieldModule,

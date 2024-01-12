@@ -26,12 +26,15 @@ export class BookingGuard implements CanActivate{
              if(sessionStorage.getItem("selectHotel")){
                if(this.searchService.searchSubject){
                  return  true;
+               }else{
+                 console.error("search subject null");
                }
              }else{
           console.error("Please Select Hotel");
              }
           }else{
           }
+    console.error("booking Faild");
         this.router.navigate(['/home']);
     return false;
   }

@@ -43,7 +43,7 @@ export class HotelComponent implements OnInit,OnDestroy,AfterViewInit{
 
   onSelect(hotel:Hotel,input: HTMLInputElement, parent: HTMLElement) {
       this.childService.onSelect(input,parent);
-      this.hotelService.selectHotelValue=hotel;
+      this.hotelService.selectHotel=hotel;
       sessionStorage.setItem("selectHotel",JSON.stringify(hotel));
 
   }

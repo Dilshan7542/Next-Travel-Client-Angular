@@ -2,6 +2,7 @@ import {Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges} from "@angu
 import {Vehicle, VehicleService} from "../../../../service/vehicle.service";
 import {Hotel, HotelService} from "../../../../service/hotel.service";
 import {SearchService} from "../../../../service/search.service";
+import {TravelArea} from "../../../../service/travel-area.service";
 
 export interface Payment {
   vehicleAmount: number;
@@ -10,6 +11,7 @@ export interface Payment {
   hotelAmount: number;
   room: number;
   countDay?:number;
+  travelArea?:TravelArea;
 }
 
 @Component({
@@ -37,9 +39,9 @@ export class PaymentComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
-    this.selectHotel=this.hotelService.selectHotelValue;
-    this.selectVehicle=this.vehicleService.selectVehicleValue;
-    this.vehicleCharge=this.vehicleService.vehicleCharge;
+    this.selectHotel=this.hotelService.selectHotel;
+    this.selectVehicle=this.vehicleService.selectVehicle;
+    this.vehicleCharge=this.vehicleService.vehiclePayment.vehicleCharge!;
 
   }
 

@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Option} from "../module/search/component/section-3/section-3.component";
 import {Observable, Observer, Subject} from "rxjs";
+import {TravelArea} from "./travel-area.service";
   export interface SearchSubject{
-    option:Option,location:string,selectDate:{ start: string|null, end: string|null }
+    option:Option,travelArea:TravelArea,selectDate:{ start: string|null, end: string|null }
   }
 @Injectable({providedIn:"root"})
 export class SearchService{
@@ -21,7 +22,7 @@ export class SearchService{
   }
   setSelectData(data:SearchSubject){
     this.searchSubject=data;
-    this.serviceDetailSub.next({option:data.option,location:data.location,selectDate:data.selectDate});
+    this.serviceDetailSub.next({option:data.option,travelArea:data.travelArea,selectDate:data.selectDate});
     this.isSearch=true;
   }
 

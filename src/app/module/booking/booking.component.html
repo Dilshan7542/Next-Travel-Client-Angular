@@ -9,7 +9,7 @@
           <section><p>Brand Name</p><h1>:</h1><p>{{selectVehicle.brandName}}</p></section>
           <section><p>Fee 1Day</p><h1>:</h1><p>{{selectVehicle.fee1Day}}</p></section>
           <section><p>Fee 1KM</p><h1>:</h1><p>{{selectVehicle.fee1KM}}</p></section>
-          <section><p>Fuel 1KM</p><h1>:</h1><p>{{selectVehicle.fee1KM}}</p></section>
+          <section><p>Fuel 1KM</p><h1>:</h1><p>{{selectVehicle.fuel1KM}}</p></section>
           <section><p>Seat</p><h1>:</h1><p>{{selectVehicle.seat}}</p></section>
         </section>
       </section>
@@ -24,7 +24,7 @@
           <section>
             <p>Option</p>
             <h1></h1>
-            <select class="border border-blue-50 outline-0" (change)="onChange(+f.value)" #f>
+            <select class="border border-blue-50 outline-0" (change)="onChange(+f.value)" #f [disabled]="bookingBtn.status">
               <option [value]="selectHotel.option?.option1">Option1 - {{selectHotel.option?.option1}}</option>
               <option [value]="selectHotel.option?.option2">Option2 - {{selectHotel.option?.option2}}</option>
               <option [value]="selectHotel.option?.option3">Option3 - {{selectHotel.option?.option3}}</option>

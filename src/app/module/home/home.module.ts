@@ -21,10 +21,10 @@ import {SharedModule} from "../shared/shared.module";
     CommonModule,
     HomeRoutingModule,
     ReactiveFormsModule,
-    SearchModule,
+    SearchModule
 
   ],
-  exports: [SearchModule],
+
 
 })
 export class HomeModule {

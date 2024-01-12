@@ -11,7 +11,7 @@ export interface AuthCredential{
   providedIn:"root"
 })
 export class AuthService{
-  authCredential:Observable<AuthCredential> |null=null;
+  authCredential:AuthCredential | null=null;
   isLoginUser=new Subject<boolean>();
   navigateUrl:string="/";
   constructor(private activeRoute:ActivatedRoute,private router:Router) {
@@ -19,25 +19,27 @@ export class AuthService{
   }
 
   getAuthService(authCredential:AuthCredential){
-
-         let email="dilshan@gmail.com";
-         let pwd="1234";
-         if(email!==authCredential.username){
-           alert("Email Not Valid");
-         }else{
-           if(pwd!== authCredential.password){
-             alert("Password not Valid");
-           }else{
-             this.authCredential=new Observable((observable:Subscriber<AuthCredential>)=>{
-               observable.next(authCredential);
-             });
-
-            this.navigate();
-            this.isLoginUser.next(true);
-           }
-         }
+    if(this.validUserDetail(authCredential)){
+      this.navigate();
+    }
   }
-
+validUserDetail(authCredential:AuthCredential){
+  let email="dilshan@gmail.com";
+  let pwd="1234";
+  if(email!==authCredential.username){
+    alert("Email Not Valid");
+  }else {
+    if (pwd !== authCredential.password) {
+      alert("Password not Valid");
+    }else{
+      this.authCredential=authCredential;
+      sessionStorage.setItem("userCredential",JSON.stringify(authCredential));
+      this.isLoginUser.next(true);
+      return true;
+    }
+  }
+  return false;
+}
 
   private navigate() {
           this.router.navigate([this.navigateUrl]);
@@ -47,5 +49,14 @@ export class AuthService{
     this.navigateUrl="/";
     this.navigate();
     this.isLoginUser.next(false);
+    sessionStorage.removeItem("userCredential");
+    sessionStorage.removeItem("location");
+    sessionStorage.removeItem("selectDate");
+    sessionStorage.removeItem("selectHotel");
+    sessionStorage.removeItem("selectVehicle");
+    sessionStorage.removeItem("options");
+    sessionStorage.removeItem("searchSubject");
+
+
   }
 }

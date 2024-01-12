@@ -1,5 +1,9 @@
 import {Injectable, OnDestroy, OnInit} from "@angular/core";
 import {Subject, Subscription} from "rxjs";
+import {TravelArea} from "./travel-area.service";
+import {SearchSubject} from "./search.service";
+import {TravelService} from "./travel.service";
+import {VehicleCalcService} from "./calculation/vehicle-calc.service";
 export interface Vehicle{
   brandName:string;
   image:string;
@@ -8,21 +12,37 @@ export interface Vehicle{
   fuel1KM:number;
   seat:number;
 }
-
+export interface VehiclePayment{
+fee1Day:number,
+  fee1KM:number,
+  fuel1KM:number,
+  vehicleCount?:number,
+  vehicleCharge?:number,
+  VehicleTotalAmount?:number
+}
 
 @Injectable({providedIn:'root'})
 export class VehicleService implements OnInit,OnDestroy{
   vehicleList:Vehicle[]=[];
   subscription!:Subscription;
- vehicleCharge=0;
+  selectVehicle!:Vehicle;
+  vehiclePayment:VehiclePayment={
+    vehicleCharge:0,
+    vehicleCount:0,
+    VehicleTotalAmount:0,
+    fee1Day:0,
+    fee1KM:0,
+    fuel1KM:0
+  };
+
   vehicleCount=0;
-  selectVehicleValue!:Vehicle;
   vehicleTotalAmount=0;
-  constructor() {
-  console.log("vehicle service init....");
+
+  constructor(private vehicleCalc:VehicleCalcService) {
+    this.vehicleCalc.initializer(this);
     const selectVehicle=sessionStorage.getItem("selectVehicle");
     if(selectVehicle){
-      this.selectVehicleValue=JSON.parse(selectVehicle);
+      this.selectVehicle=JSON.parse(selectVehicle);
     }
   }
 
@@ -57,13 +77,16 @@ export class VehicleService implements OnInit,OnDestroy{
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  vehicleTotal(){
-   this.vehicleTotalAmount=this.selectVehicleValue.fee1Day;
-   this.vehicleTotalAmount +=this.selectVehicleValue.fee1KM;
-   this.vehicleTotalAmount +=this.selectVehicleValue.fuel1KM;
-   this.vehicleTotalAmount +=this.selectVehicleValue.fee1KM;
-   this.vehicleCharge=this.vehicleTotalAmount;
-   this.vehicleTotalAmount *=this.vehicleCount;
-   return this.vehicleTotalAmount;
+  getVehicleCount(searchSubject:SearchSubject) {
+    this.vehicleCount=this.vehicleCalc.getVehicleCount(searchSubject.option,this.selectVehicle.seat);
+    return this.vehicleCount;
+  }
+
+  vehicleTotal(searchSubject:SearchSubject){
+    if(searchSubject){
+     this.vehiclePayment=this.vehicleCalc.vehicleTotal(searchSubject);
+     return this.vehiclePayment;
+    }
+    return this.vehiclePayment;
   }
 }

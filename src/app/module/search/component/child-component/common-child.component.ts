@@ -39,14 +39,17 @@ export class CommonChildComponent implements OnInit,OnDestroy{
     }
 
   onBooking() {
-    if (!this.hotelService.selectHotelValue) {
+    if (!this.hotelService.selectHotel) {
       this.error="Please Select Hotel..!!"
     }else{
-      if(!this.vehicleService.selectVehicleValue){
+      if(!this.vehicleService.selectVehicle){
       this.error="Please Select Vehicle..!!"
       }else{
-
+          if(this.searchService.searchSubject){
     this.router.navigate(["../../booking"],{relativeTo:this.activeRoute});
+          }else{
+            this.error="Please Select Number of Room and Adult";
+          }
       }
     }
   }

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Option} from "./component/section-3/section-3.component";
 import {SearchService, SearchSubject} from "../../service/search.service";
 import {Subscription, map, tap} from "rxjs";
+import {TravelArea} from "../../service/travel-area.service";
 
 @Component({
   selector:"search-component",
@@ -35,7 +36,7 @@ import {Subscription, map, tap} from "rxjs";
 export class SearchComponent implements OnInit,OnDestroy{
   error:string|null=null;
   subscription!:Subscription;
-  location:string|null=null;
+  selectLocation:TravelArea|null=null;
   category="";
   option:Option={room:0,child:0,adult:0};
   selectDate:{ start: string|null, end: string|null }={start:null,end:null};
@@ -53,7 +54,7 @@ export class SearchComponent implements OnInit,OnDestroy{
     }
 
   onSearch() {
-    if(!this.location){
+    if(!this.selectLocation){
       this.error="Please Select Location!!"
     }else{
       if(!this.selectDate.start){
@@ -62,15 +63,15 @@ export class SearchComponent implements OnInit,OnDestroy{
         if(!this.selectDate.end){
           this.error="Please Select End Date";
         }else{
-    this.router.navigate(["/home/search/"+this.category+"/search/"+this.location],{relativeTo:this.activeRoute});
+    this.router.navigate(["/home/search/"+this.category+"/search/"+this.selectLocation.areaName],{relativeTo:this.activeRoute});
         }
       }
     }
   }
 
 
-  onSelectLocation(event: string) {
-   this.location=event;
+  onSelectLocation(event: TravelArea) {
+   this.selectLocation=event;
    this.notify();
   }
 
@@ -85,7 +86,7 @@ export class SearchComponent implements OnInit,OnDestroy{
 
   }
   notify(){
-    const searchData:SearchSubject={option:this.option,location:this.location!,selectDate:this.selectDate};
+    const searchData:SearchSubject={option:this.option,travelArea:this.selectLocation!,selectDate:this.selectDate};
     sessionStorage.setItem('searchSubject',JSON.stringify(searchData));
    this.searchService.setSelectData(searchData);
 

@@ -16,6 +16,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {BookingModule} from "../booking/booking.module";
 import {SearchService} from "../../service/search.service";
 import {SharedModule} from "../shared/shared.module";
+import {VehicleCalcService} from "../../service/calculation/vehicle-calc.service";
 
 
 
@@ -39,6 +40,6 @@ import {SharedModule} from "../shared/shared.module";
     MatButtonModule,
     BookingModule
   ],
-  providers:[ChildService,SearchService]
+  providers:[ChildService,VehicleCalcService]
 })
 export class SearchModule{}

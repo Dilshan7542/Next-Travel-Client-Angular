@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {AuthService} from "../auth/auth.service";
+import {AuthCredential, AuthService} from "../auth/auth.service";
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
@@ -20,19 +20,19 @@ export class AuthGuard implements CanActivate{
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let auth:Observable<boolean> | null=null;
-    let b=true;
-    if(b){
-    return true;
-    }
+    let userDetail = sessionStorage.getItem("userCredential");
+    this.authService.navigateUrl=state.url;
+    if(userDetail){
+          this.authService.validUserDetail(JSON.parse(userDetail));
+        }
       if(this.authService.authCredential){
-      auth= this.authService.authCredential.pipe(take(1),map(auth=> auth!==null));
-      }
-    if (!auth) {
-      this.authService.navigateUrl=state.url;
+        console.log("auth Ok..!!");
+        return true;
+      }else{
+        console.log("is falkse");
       this.router.navigate(["/auth"]);
-    }
-       return auth!;
+        return false;
+      }
   }
 
 }

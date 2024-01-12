@@ -9,8 +9,8 @@ import {BookingResolverService} from "../../service/resolve/booking-resolver.ser
 const routes:Routes=[
   {path:"",component:SearchComponent,children:[
     {path:"search/:location",component:CommonChildComponent,resolve:[SearchResolverService]},
-  {path:"booking",loadChildren:()=> import("../booking/booking.module").then(r=>r.BookingModule),canActivate:[AuthGuard],
-    resolve:[BookingResolverService]}
+      {path:"booking",loadChildren:()=> import("../booking/booking.module").then(r=>r.BookingModule),canActivate:[AuthGuard],
+        resolve:[BookingResolverService]}
     ]},
 ];
 @NgModule({
