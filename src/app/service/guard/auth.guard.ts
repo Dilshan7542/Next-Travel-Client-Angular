@@ -21,16 +21,15 @@ export class AuthGuard implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let userDetail = sessionStorage.getItem("userCredential");
-    this.authService.navigateUrl=state.url;
-    if(userDetail){
-          this.authService.validUserDetail(JSON.parse(userDetail));
-        }
-      if(this.authService.authCredential){
-        console.log("auth Ok..!!");
+      let auth = sessionStorage.getItem("Auth");
+      if(auth && userDetail){
+       const userCredential=JSON.parse(userDetail);
+       this.authService.authCredential=userCredential;
+        this.authService.isLoginUser.next(userCredential);
         return true;
       }else{
-        console.log("is falkse");
-      this.router.navigate(["/auth"]);
+        this.authService.navigateUrl= state.url;
+        this.router.navigate(["/auth"]);
         return false;
       }
   }

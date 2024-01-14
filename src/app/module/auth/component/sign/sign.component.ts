@@ -1,16 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, NgForm, NgModel, Validators} from "@angular/forms";
+import {Customer, CustomerService} from "../../../../service/customer.service";
 
 
-interface Customer{
-  nic:string;
-  name:string;
-  address:string;
-  email:string;
-  pwd:string;
-  pwd2?:string;
-  tel:string;
-}
+
 @Component({
   selector:"auth-sign",
   templateUrl:"sign.component.html",
@@ -30,7 +23,7 @@ interface Customer{
 export class SignComponent implements OnInit{
 isPwdConform=true;
   formSignGroup!:FormGroup;
-  constructor() {
+  constructor(private customerService:CustomerService) {
 
   }
 
@@ -53,8 +46,16 @@ isPwdConform=true;
 
   onSubmit() {
    this.isPwdConform=this.formSignGroup.valid;
-    console.log(this.formSignGroup);
-    console.log(this.formSignGroup.value);
+ /*   console.log(this.formSignGroup);
+    console.log(this.formSignGroup.value);*/
+    let customer:Customer=this.formSignGroup.value;
+    const pwdData= this.formSignGroup.get("passwordData");
+    if(pwdData){
+    customer.pwd=pwdData.get("pwd")?.value;
+    }
+    this.customerService.registerCustomer(customer).subscribe(data=>{
+      console.log(data);
+    });
   }
   isConformPassword(formGroup:AbstractControl):{ notMatch: boolean } | null  {
 
@@ -63,5 +64,6 @@ isPwdConform=true;
     }
     return  { notMatch: true};
   }
+
 
 }

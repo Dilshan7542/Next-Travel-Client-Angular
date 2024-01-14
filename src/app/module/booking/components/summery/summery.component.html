@@ -1,0 +1,78 @@
+<main class="w-full flex">
+  <section class="w-full flex justify-center items-center mb-10">
+    <section class="w-[80%]  rounded-xl shadow-2xl p-5 bg-white pb-10">
+      <table class="w-full">
+        <thead>
+        <tr>
+          <th>Description</th>
+          <th>Qty Desc</th>
+          <th></th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody class="w-full">
+        <tr><th>*Hotel Price</th> <td></td> <td></td><td></td></tr>
+        <tr><td>Room x Option x Days</td> <td>{{summery?.hotelSum?.room+" x "+summery?.hotelSum?.option!.toFixed(2)+" x "+summery?.countDay}}</td>
+          <td></td>
+          <td>{{summery?.hotelSum?.amount!.toFixed(2)}}</td>
+        </tr>
+        <tr class="font-medium bg-total">
+          <td>Hotel Amount</td>
+          <td></td>
+          <td></td>
+          <td>{{summery?.hotelSum?.amount!.toFixed(2)}}</td></tr>
+        <!--Vehicle Payment-->
+        <tr>
+          <th>*Vehicle Price</th>
+        </tr>
+        <tr>
+          <td>Location KM</td>
+          <td>{{summery?.travelArea?.fullKM}}KM</td>
+        </tr>
+        <tr><td>Fee 1Day x Days</td> <td>{{selectVehicle.fee1Day!.toFixed(2)+" x "+summery?.countDay}}</td>
+          <td></td><td>{{summery?.vehicleSum?.fee1Day!}}</td></tr>
+        <tr class="border-t-8 border-transparent">
+          <td>Fee 1KM x Location KM</td> <td>{{selectVehicle.fee1KM!.toFixed(2)+" x "+summery?.travelArea?.fullKM}}</td>
+          <td></td>
+          <td>{{summery?.vehicleSum?.fee1KM!.toFixed(2)}}</td>
+        </tr>
+        <tr>
+          <td>Fuel 1KM x Location KM</td>
+          <td>{{selectVehicle.fuel1KM!.toFixed(2)+" x "+summery?.travelArea?.fullKM}}</td>
+          <td></td>
+          <td>{{summery?.vehicleSum?.fuel1KM!.toFixed(2)}}</td>
+        </tr>
+        <tr class="font-medium border-t-[12px] border-transparent">
+          <td>Vehicle Cost</td>
+          <td>{{summery?.vehicleSum?.cost!.toFixed(2)}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="font-medium border-b-[12px] border-transparent">
+          <td>Vehicle Cost x Vehicle Count</td>
+          <td>{{summery?.vehicleSum?.cost!.toFixed(2)+" x "+summery?.vehicleSum?.count}}</td>
+          <td></td>
+          <td>{{summery?.vehicleSum?.amount!.toFixed(2)}}</td>
+        </tr>
+        <tr class="font-medium bg-total">
+          <td>Vehicle Amount</td>
+          <td></td>
+          <td></td>
+          <td>{{summery?.vehicleSum?.amount!.toFixed(2)}}</td>
+        </tr>
+        <!--Travel Charges-->
+        <tr><th>*Travel Charges</th> <td></td> <td></td><td></td></tr>
+        <tr><td>-Count Day</td> <td>{{summery?.countDay}}</td><td></td> <td></td></tr>
+        <tr><td>-Count Night</td> <td>{{summery?.countDay!-1}}</td> <td></td><td>{{'0.00'}}</td></tr>
+
+        <!--Total Amount-->
+        <tr><th></th> <td></td><td></td> <td></td></tr>
+        <tr class="font-bold bg-total text-blue-800"><th>*Travel Charges</th><td></td> <td></td> <td>{{summery?.totalSum!.toFixed(2)}}</td></tr>
+        </tbody>
+
+      </table>
+    </section>
+
+  </section>
+
+</main>

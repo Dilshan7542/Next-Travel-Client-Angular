@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
 import {Booking, BookingService} from "../booking.service";
-import {Observable} from "rxjs";
+import {Observable, take} from "rxjs";
 
 
 
@@ -14,8 +14,14 @@ export class BookingResolverService implements Resolve<Booking[] | null>{
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Booking[]> | Promise<Booking[]> | Booking[] |null {
-    this.bookingService.checkPendingBooking();
-    return  null;
+    if(this.bookingService.bookingList.length ===0){
+      this.bookingService.getBookedList().subscribe();
+    }
+    if(this.bookingService.pendingBooking){
+    this.bookingService.isPendingBookingUpdate.next();
+
+    }
+    return null;
   }
 
 }

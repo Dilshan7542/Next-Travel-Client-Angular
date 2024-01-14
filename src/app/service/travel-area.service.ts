@@ -1,4 +1,7 @@
 import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.development";
+import {Subject, tap} from "rxjs";
 
 export interface TravelArea{
   travelAreaID:number;
@@ -10,12 +13,13 @@ export interface TravelArea{
 })
 export class TravelAreaService{
   travelAreaList:TravelArea[]=[];
-  constructor() {
-    this.travelAreaList.push({travelAreaID:1,areaName:"Gampaha",fullKM:10});
-    this.travelAreaList.push({travelAreaID:1,areaName:"Negombo",fullKM:30});
-    this.travelAreaList.push({travelAreaID:1,areaName:"Panadura",fullKM:60});
-    this.travelAreaList.push({travelAreaID:1,areaName:"Colombo",fullKM:25});
-    this.travelAreaList.push({travelAreaID:1,areaName:"Galle",fullKM:120});
-    this.travelAreaList.push({travelAreaID:1,areaName:"Mathara",fullKM:150});
+  travelAreaData=new Subject<TravelArea[]>();
+  constructor(private http:HttpClient) {
+  }
+  getAllTravelArea(){
+    return this.http.get<TravelArea[]>(environment.url+"/travel/api/v1/travel/area/all").pipe(tap(data=>{
+      this.travelAreaList=data;
+      this.travelAreaData.next(data);
+    }));
   }
 }

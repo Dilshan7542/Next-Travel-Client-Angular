@@ -7,8 +7,8 @@ import {BookingResolverService} from "../../service/resolve/booking-resolver.ser
 const route:Routes=[{path:"",component:HomeComponent,children:[
     {path:"",component:CategoryComponent},
     {path:"search/:category",loadChildren:()=> import("../search/search.module").then(r=>r.SearchModule)},
-    {path:"booking",loadChildren:()=> import("../booking/booking.module").then(r=>r.BookingModule),canActivate:[AuthGuard],
-      resolve:[BookingResolverService]}
+    {path:"booking",loadChildren:()=> import("../booking/booking.module").then(r=>r.BookingModule),canActivate:[AuthGuard],resolve:[BookingResolverService]
+      }
 
   ]}];
 @NgModule({

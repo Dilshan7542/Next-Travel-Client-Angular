@@ -46,6 +46,7 @@ export class CommonChildComponent implements OnInit,OnDestroy{
       this.error="Please Select Vehicle..!!"
       }else{
           if(this.searchService.searchSubject){
+
     this.router.navigate(["../../booking"],{relativeTo:this.activeRoute});
           }else{
             this.error="Please Select Number of Room and Adult";

@@ -1,9 +1,9 @@
 import {Injectable, OnDestroy, OnInit} from "@angular/core";
-import {Subject, Subscription} from "rxjs";
-import {TravelArea} from "./travel-area.service";
+import {Subject, Subscription, tap} from "rxjs";
 import {SearchSubject} from "./search.service";
-import {TravelService} from "./travel.service";
 import {VehicleCalcService} from "./calculation/vehicle-calc.service";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.development";
 export interface Vehicle{
   brandName:string;
   image:string;
@@ -24,6 +24,7 @@ fee1Day:number,
 @Injectable({providedIn:'root'})
 export class VehicleService implements OnInit,OnDestroy{
   vehicleList:Vehicle[]=[];
+  vehicleCategoryListData=new Subject<Vehicle[]>();
   subscription!:Subscription;
   selectVehicle!:Vehicle;
   vehiclePayment:VehiclePayment={
@@ -35,10 +36,10 @@ export class VehicleService implements OnInit,OnDestroy{
     fuel1KM:0
   };
 
-  vehicleCount=0;
-  vehicleTotalAmount=0;
+ // vehicleCount=0; summery include
 
-  constructor(private vehicleCalc:VehicleCalcService) {
+
+  constructor(private vehicleCalc:VehicleCalcService,private http:HttpClient ) {
     this.vehicleCalc.initializer(this);
     const selectVehicle=sessionStorage.getItem("selectVehicle");
     if(selectVehicle){
@@ -50,37 +51,27 @@ export class VehicleService implements OnInit,OnDestroy{
   }
 
 
-  initValue(){
-    return new Promise<Vehicle[]>((resolve, reject)=>{
-      this.vehicleList=[];
-      setTimeout(()=>{
-        let img="https://imgd.aeplcdn.com/370x208/n/cw/ec/130591/fronx-exterior-right-front-three-quarter-109.jpeg?isig=0&q=80";
-        this.vehicleList.push({brandName:"BMW",image:img,fee1Day:250,fee1KM:180,fuel1KM:340,seat:4});
-        this.vehicleList.push({brandName:"Audi",image:img,fee1Day:250,fee1KM:180,fuel1KM:340,seat:4});
-        this.vehicleList.push({brandName:"Toyota",image:img,fee1Day:250,fee1KM:180,fuel1KM:340,seat:4});
-        this.vehicleList.push({brandName:"Lambogini",image:img,fee1Day:250,fee1KM:180,fuel1KM:340,seat:2});
-        this.vehicleList.push({brandName:"Szszki",image:img,fee1Day:250,fee1KM:180,fuel1KM:340,seat:4});
-        this.vehicleList.push({brandName:"Szszki",image:img,fee1Day:250,fee1KM:180,fuel1KM:340,seat:4});
-        resolve(this.vehicleList);
-        reject(new Error("Error... Vehicle 504"));
-      },2000);
-    });
-  }
+
   getAllVehicle(){
-    return this.initValue().then(hotelAr=>{
-      return new Promise<Vehicle[]>((resolve, reject)=>{
-        resolve(this.vehicleList.slice());
-        reject(new Error("Error... Vehicle Data Not Fetch...!!!"));
-      });
-    });
+    return this.http.get<Vehicle[]>(environment.url+"/vehicle/api/v1/vehicle/brand/all").pipe(tap(data=>{
+        this.vehicleList=data;
+        this.vehicleCategoryListData.next(data);
+      }));
+  }
+  getAllVehicleByCategory(categoryID:number){
+     return  this.http.get<Vehicle[]>(environment.url+"/vehicle/api/v1/vehicle/brand/search/category/"+categoryID).pipe(tap(data=>{
+       this.vehicleList=data;
+       this.vehicleCategoryListData.next(data);
+     }));
+
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  getVehicleCount(searchSubject:SearchSubject) {
+/*  getVehicleCount(searchSubject:SearchSubject) { summery include
     this.vehicleCount=this.vehicleCalc.getVehicleCount(searchSubject.option,this.selectVehicle.seat);
     return this.vehicleCount;
-  }
+  }*/
 
   vehicleTotal(searchSubject:SearchSubject){
     if(searchSubject){

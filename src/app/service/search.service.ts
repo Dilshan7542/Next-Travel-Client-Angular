@@ -12,7 +12,6 @@ export class SearchService{
   isSearch=false;
 
   constructor() {
-    console.log("search init");
   let data= sessionStorage.getItem("searchSubject");
     if(data){
     const searchSub:SearchSubject=JSON.parse(data);

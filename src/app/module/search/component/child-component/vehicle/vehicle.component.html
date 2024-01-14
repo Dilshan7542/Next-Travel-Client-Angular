@@ -1,11 +1,11 @@
 <main class="w-full flex flex-col items-center mt-20">
   <h1 class="text-3xl mb-5">Find Your Vehicle</h1>
   <aside *ngIf="isLoading" class="w-full flex justify-center items-center"><h1>Loading...</h1></aside>
-  <section *ngIf="!isLoading" class="w-[80%] flex  justify-center" id="vehicle-section" #parent>
+  <section *ngIf="!isLoading" class="w-[90%] flex  justify-center" id="vehicle-section" #parent>
     <section *ngFor="let vehicle of vehicleList;let i=index"  (click)="onSelect(vehicle,input,parent)">
       <section>
         <img
-          [src]="vehicle.image"
+          [src]="'data:image/png;base64,'+vehicle.image"
           alt="Vehicle Image">
       </section>
       <section><p>Brand Name</p><p>{{": "+vehicle.brandName}}</p></section>

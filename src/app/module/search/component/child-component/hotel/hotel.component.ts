@@ -17,7 +17,6 @@ export class HotelComponent implements OnInit,OnDestroy,AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    console.log("scroll.....!!!");
     window.scrollTo({top:500});
     }
 
@@ -30,10 +29,12 @@ export class HotelComponent implements OnInit,OnDestroy,AfterViewInit{
   hotelAr:Hotel[]=[];
 
   ngOnInit(): void {
-
+    this.hotelAr=this.hotelService.hotelList;
+    if(this.hotelAr.length===0){
     this.isLoading=true;
-   this.hotelService.getAllHotel().then(hotelList=>{
-      this.hotelAr=hotelList;
+    }
+   this.hotelService.hotelDataList.subscribe(data=>{
+      this.hotelAr=data;
      this.isLoading=false;
    });
 

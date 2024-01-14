@@ -1,5 +1,10 @@
 import {Injectable} from "@angular/core";
 import {TravelArea} from "./travel-area.service";
+import {HttpClient} from "@angular/common/http";
+import {map, Subject} from "rxjs";
+import {environment} from "../../environments/environment.development";
+
+
 
 
 export interface TravelCategory{
@@ -15,7 +20,7 @@ export interface Travel{
   children:number;
   room:number;
   vehicleCount:number;
-  travelCategory:TravelCategory;
+  travelCategory?:TravelCategory;
   vehicleCost?:number;
 }
 @Injectable({
@@ -23,9 +28,15 @@ export interface Travel{
 })
 export class TravelService{
   travelCategoryList:TravelCategory[]=[];
+  selectTravelCategory!:TravelCategory;
   travelList:Travel[]=[];
+  path=environment.url+"/travel/api/v1/travel";
+  constructor(private http:HttpClient) {
+  }
 
-searchTravel(travelID:number){
+
+  travelCategoryData=new Subject<TravelCategory[]>();
+  searchTravelInMemory(travelID:number){
   return new Promise<Travel>((resolve, reject)=>{
   for (let t of this.travelList) {
         if(t.travelID===travelID){
@@ -33,26 +44,36 @@ searchTravel(travelID:number){
           break;
         }
   }
-  reject(null);
+  reject("Error..Travel Empty");
   });
 }
-saveTravel(travel:Travel){
-  return new Promise<Travel>((resolve, reject)=>{
-  this.travelList.push(travel);
-  resolve(travel);
-  });
+searchTravel(travelID:number){
+    return  this.http.get<Travel>(this.path+"/search/"+travelID).pipe(map(data=>{
+        if(data){
+            return data;
+        }else{
+            throw new Error("Travel Not Saved!!!");
+        }
+    }));
 }
-  constructor() {
-    this.travelCategoryList.push({travelCategoryID:1,categoryName:"Regular"});
-    this.travelCategoryList.push({travelCategoryID:2,categoryName:"Medium"});
-    this.travelCategoryList.push({travelCategoryID:3,categoryName:"Luxury"});
-    this.travelCategoryList.push({travelCategoryID:4,categoryName:"Super-Luxury"});
+  saveTravel(travel:Travel){
+   return  this.http.post<Travel>(this.path+"/register",travel).pipe(map(data=>{
+          if(data){
+            return data;
+          }else{
+          throw new Error("Travel Not Saved!!!");
+          }
+    }));
+
+}
+  getTravelCategoryData(){
+      return this.http.get<TravelCategory[]>(this.path+"/category").pipe(map(data=>{
+        this.travelCategoryList=data;
+       this.travelCategoryData.next(data);
+        return data;
+      }));
   }
-  getTravelCategoryList(){
-    return new Promise<TravelCategory[]>((resolve, reject)=>{
-      resolve(this.travelCategoryList);
-    });
-  }
+
   public countDate(selectDate:{ start: string|null, end: string|null }) {
     if (selectDate.start && selectDate.end) {
       let timeCount = new Date(selectDate.end).getTime() - new Date(selectDate.start).getTime();

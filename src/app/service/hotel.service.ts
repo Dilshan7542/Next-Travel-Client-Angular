@@ -1,24 +1,27 @@
 import {Injectable, OnInit} from "@angular/core";
-import {Subject} from "rxjs";
+import {Subject, tap} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.development";
 export interface Hotel{
-  hotelID?:string;
+  hotelID?:number;
   name:string;
   image:string;
   email:string;
   location:string;
   starRate:string;
   tel:string;
-  option?:{option1:number,option2:number,option3:number,option4:number};
+  hotelOption?:{option1:number,option2:number,option3:number,option4:number}[];
 }
 @Injectable({providedIn:"root"})
 export class HotelService implements OnInit{
   hotelList:Hotel[]=[];
   selectHotel!:Hotel;
+  hotelDataList=new Subject<Hotel[]>();
   hotelAmount=0;
   selectHotelOption=0;
   roomCount=1;
 
-  constructor() {
+  constructor(private http:HttpClient) {
    const selectHotel= sessionStorage.getItem("selectHotel");
     if(selectHotel){
       this.selectHotel=JSON.parse(selectHotel);
@@ -26,28 +29,29 @@ export class HotelService implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("service Init");
-   setTimeout(this.initValue,1500);
-  }
-  initValue(){
-    this.hotelList=[];
-  return new Promise<Hotel[]>((resolve, reject)=>{
-    let img="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/a1/9c/80/essentia-luxury-hotel.jpg?w=700&h=-1&s=1";
-    this.hotelList.push({name:"Dilshan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
-    this.hotelList.push({name:"Hashan",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
-    this.hotelList.push({name:"Iressha",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
-    this.hotelList.push({name:"Punsara",image:img,email:"dilshan@gmail.com",location:"Gampaha",tel:"0752277759",starRate:"45",option:{option1:1000,option2:1500,option3:2000,option4:2500}});
-      setTimeout(()=>{
-        resolve(this.hotelList);
-      },1500);
-    });
-  }
-  getAllHotel() {
-   return  new Promise<Hotel[]>((resolve, reject) =>{
-        resolve(this.hotelList.slice());
-        reject.bind(new Error("Data Not Fetch..."))
-    });
 
+  }
+
+  getAllHotel() {
+   return this.http.get<Hotel[]>(environment.url+"/hotel/api/v1/hotel/all").pipe(tap(data=>{
+     this.hotelList=data;
+     this.hotelDataList.next(data);
+   }));
+
+  }
+  searchByLocation(location:string){
+    if(location==="All"){
+      this.hotelDataList.next(this.hotelList);
+      return this.hotelList;
+    }
+    const list:Hotel[]=[];
+    for (let hotel of this.hotelList) {
+          if(hotel.location===location){
+            list.push(hotel);
+          }
+    }
+    this.hotelDataList.next(list);
+    return list;
   }
   hotelTotal(countDay:number){
     this.hotelAmount=this.roomCount*this.selectHotelOption * countDay;

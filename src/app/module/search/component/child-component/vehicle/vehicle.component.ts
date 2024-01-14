@@ -23,8 +23,11 @@ export class VehicleComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.vehicleList=this.vehicleService.vehicleList;
+      if(this.vehicleList.length===0){
     this.isLoading=true;
-    this.vehicleService.getAllVehicle().then(vehicleList=>{
+      }
+    this.vehicleService.vehicleCategoryListData.subscribe(vehicleList=>{
       this.vehicleList=vehicleList;
       this.isLoading=false;
     });

@@ -1,0 +1,54 @@
+<main class="w-full h-full">
+  <section class="w-full h-full flex flex-col justify-center">
+    <h1 class="font-bold text-center text-3xl p-4 tracking-widest">-Summery-</h1>
+    <section class="w-full flex justify-center items-center  mb-5">
+      <section class="w-[40%]  rounded-xl shadow-2xl p-5 flex flex-col items-center bg-white" id="payment-section">
+         <section>
+           <section class="w-[30%]">
+           <img src="/assets/img/visa.png" alt="visa img" class="w-[80%]">
+           </section>
+          <section class="flex flex-col justify-center font-bold">
+            <h1 class="text-blue-800 text-xl">RS{{totalAmount}}</h1>
+            <p>subscription payment</p>
+          </section>
+         </section>
+         <section>
+           <section class="w-[80%] ">
+             <label for="cardNumber" class="font-bold">Card Number</label>
+             <input  placeholder="8641 5462 5856 8546"  ngModel name="cardNumber"  required id="cardNumber">
+           </section>
+           <section class="w-[20%]">
+             <label for="cvc" class="font-bold">CVC</label>
+               <input placeholder="678" email ngModel name="cvc"  required id="cvc" >
+           </section>
+         </section>
+        <section>
+           <section class="w-[80%] ">
+             <label for="holderName" class="font-bold">Holder Name</label>
+             <input  placeholder="Dilshan Maduranga"  ngModel name="holderName"  required id="holderName" >
+           </section>
+         </section>
+        <section>
+          <section class="w-[80%]">
+          <label for="exDate" class="font-bold">Expire Date</label>
+           <input type="date" [min]="minDate" id="exDate">
+          </section>
+         </section>
+         <section>
+           <section class="w-full flex justify-center">
+             <div class="flex font-bold w-full justify-center">
+            <p>2021</p><p>:</p><p>{{1}}</p><p>:</p><p>{{10}}</p><p>:</p><p>{{55}}</p>
+             </div>
+           </section>
+         </section>
+        <section>
+          <section class="w-full flex justify-center">
+            <button mat-flat-button color="accent" class="w-full" disabled>Pending Payment</button>
+          </section>
+        </section>
+      </section>
+    </section>
+
+  </section>
+
+</main>

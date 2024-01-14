@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TravelCategory, TravelService} from "../../../../service/travel.service";
+import {VehicleService} from "../../../../service/vehicle.service";
 
 @Component({
   selector:"category-component",
@@ -31,13 +32,16 @@ export class CategoryComponent implements OnInit{
   constructor(private router:Router,private activeRoute:ActivatedRoute,private travelService:TravelService) {
   }
   ngOnInit(): void {
-    this.travelService.getTravelCategoryList().then(travelCategoryList=>{
-      this.travelCategoryList=travelCategoryList;
-    });
+  this.travelCategoryList=this.travelService.travelCategoryList;
+    this.travelService.travelCategoryData.subscribe(data=>{
+      this.travelCategoryList=data;
+    })
   }
 
 
+
   onSelect(category: TravelCategory) {
+    this.travelService.selectTravelCategory=category;
     this.router.navigate(['search',category.travelCategoryID],{relativeTo:this.activeRoute});
   }
 

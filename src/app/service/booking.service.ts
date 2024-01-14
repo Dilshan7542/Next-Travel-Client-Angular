@@ -3,6 +3,10 @@ import {Customer} from "./customer.service";
 import {Hotel} from "./hotel.service";
 import {Travel} from "./travel.service";
 import {Vehicle} from "./vehicle.service";
+import {map, Subject, take, tap} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.development";
+import {data} from "autoprefixer";
 
 
 export interface Booking {
@@ -35,48 +39,52 @@ export interface BookingDTO {
 })
 export class BookingService {
     bookingList:Booking[]=[];
-
+    isPendingBookingUpdate=new Subject<void>();
     pendingBooking:Booking | null=null;
+    path=environment.url+"/customer/api/v1/booking";
+    bookingListData=new Subject<Booking[]>();
 
-
-  bookingDTOList:BookingDTO[]=[]; // testing....
-  constructor() {
-    let hotel:{name:string,option:number}={name:"Ananthara Hotel",option:2500};
-    this.bookingList.push({bookingID:1,hotel:JSON.stringify(hotel),vehicle:`{"brandName":"BMW"}`,travel:`{"location":"Galle","room":5,"vehicleCount":4}`,guide:"Gunapala",date:"2023-01-5",time:"08.35",paidValue:3500,paymentStatus:true});
-    hotel={name:"JetWin Hotel",option:1000};
-    this.bookingList.push({bookingID:2,hotel:JSON.stringify(hotel),vehicle:`{"brandName":"BMW"}`,travel:`{"location":"Galle"}`,guide:"Danapala",date:"2023-01-5",time:"08.35",paidValue:3500,paymentStatus:true});
-    this.bookingList.push({bookingID:3,hotel:`{"name":"ABC Hotel"}`,vehicle:`{"brandName":"BMW"}`,travel:`{"location":"Galle"}`,guide:"Danapala",date:"2023-01-5",time:"08.35",paidValue:3500,paymentStatus:true});
-    this.bookingList.push({bookingID:4,hotel:`{"name":"Galadari Hotel"}`,vehicle:`{"brandName":"BMW"}`,travel:`{"location":"Galle"}`,guide:"Danapala",date:"2023-01-5",time:"08.35",paidValue:3500,paymentStatus:true});
-    this.bookingList.push({bookingID:5,hotel:`{"name":"Hilton Hotel"}`,vehicle:`{"brandName":"BMW"}`,travel:`{"location":"Galle"}`,guide:"Danapala",date:"2023-01-5",time:"08.35",paidValue:3500,paymentStatus:true});
+  constructor(private http:HttpClient) {
 
   }
   getBookedList(){
-
-
-return new Promise<Booking[]>((resolve, reject)=>{
-  setTimeout(()=>{
-  resolve(this.bookingList);
-
-  },2000);
-
-
-});
+    return this.http.get<Booking[]>(this.path).pipe(tap(data=>{
+             this.bookingList=data;
+             this.bookingListData.next(data);
+      }));
+  }
+  cancelPendingBooking(bookingID:number){
+      return this.http.delete<void>(this.path+"?bookingID="+bookingID).subscribe(()=>{
+              this.getBookedList().subscribe();
+              this.pendingBooking=null;
+      });
+  }
+  updatePaidBooking(booking:Booking){
+    return this.http.put<Booking>(this.path,booking).pipe(map(data=>{
+      if(data){
+        return data;
+      }else{
+        throw new Error("Booking Paid Failed!!");
+      }
+    }));
   }
   checkPendingBooking(){
-    this.bookingList.map(booking =>{
+    for (let booking of this.bookingList) {
       if(!booking.paymentStatus){
         this.pendingBooking=booking;
+        return;
       }
-    });
+    }
   }
-  removePendingBooking(){
-    this.pendingBooking=null;
-  }
+
   saveBooking(booking:Booking){
-    return new Promise<Booking>((resolve, reject)=>{
-      this.bookingList.push(booking);
-      resolve(booking);
-    });
+    return this.http.post<Booking>(this.path,booking).pipe(map(data=>{
+        if(data){
+          return data;
+        }else{
+          throw new Error("Booking Save Failed!!");
+        }
+    }));
   }
 
 

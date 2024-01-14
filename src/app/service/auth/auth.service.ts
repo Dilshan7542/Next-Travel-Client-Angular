@@ -1,7 +1,10 @@
-import {Injectable} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {map, observable, Observable, Subject, Subscriber, take, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreviousRouteService} from "../router/previous-router.service";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../../environments/environment.development";
+import {Customer, CustomerService} from "../customer.service";
 
 export interface AuthCredential{
   username:string,
@@ -12,35 +15,40 @@ export interface AuthCredential{
 })
 export class AuthService{
   authCredential:AuthCredential | null=null;
-  isLoginUser=new Subject<boolean>();
+  isLoginUser=new Subject<AuthCredential>();
   navigateUrl:string="/";
-  constructor(private activeRoute:ActivatedRoute,private router:Router) {
+  path=environment.url+"/customer/api/v1/customer";
+  constructor(private activeRoute:ActivatedRoute,private router:Router,private http:HttpClient) {
 
   }
 
-  getAuthService(authCredential:AuthCredential){
-    if(this.validUserDetail(authCredential)){
-      this.navigate();
-    }
-  }
 validUserDetail(authCredential:AuthCredential){
-  let email="dilshan@gmail.com";
-  let pwd="1234";
-  if(email!==authCredential.username){
-    alert("Email Not Valid");
-  }else {
-    if (pwd !== authCredential.password) {
-      alert("Password not Valid");
-    }else{
+
+  return   this.searchByEmailUser(authCredential).pipe(tap((err)=>{
+      if(err instanceof HttpErrorResponse){
+          if(err.status !==401){
+            throw new Error(err.error);
+          }
+      }
       this.authCredential=authCredential;
       sessionStorage.setItem("userCredential",JSON.stringify(authCredential));
-      this.isLoginUser.next(true);
-      return true;
-    }
-  }
-  return false;
+      sessionStorage.setItem("Auth",err.headers.get("Authorization")!);
+      this.isLoginUser.next(authCredential);
+      this.navigate();
+    }));
+
 }
 
+searchByEmailUser(authCredential:AuthCredential){
+
+     return  this.http.get<Customer>(this.path+"/search/email/"+authCredential.username,{
+       headers:{
+         "Authorization":"Basic " + window.btoa(authCredential.username + ':' + authCredential.password),
+         "X-Requested-With":"XMLHttpRequest"
+       }
+       ,observe:"response"});
+
+}
   private navigate() {
           this.router.navigate([this.navigateUrl]);
   }
@@ -48,8 +56,8 @@ validUserDetail(authCredential:AuthCredential){
     this.authCredential=null;
     this.navigateUrl="/";
     this.navigate();
-    this.isLoginUser.next(false);
     sessionStorage.removeItem("userCredential");
+    sessionStorage.removeItem("Auth");
     sessionStorage.removeItem("location");
     sessionStorage.removeItem("selectDate");
     sessionStorage.removeItem("selectHotel");
