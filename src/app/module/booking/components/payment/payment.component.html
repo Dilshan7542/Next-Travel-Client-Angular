@@ -43,7 +43,7 @@
          </section>
         <section>
           <section class="w-full flex justify-center">
-            <button mat-flat-button color="accent" class="w-full" disabled>Pending Payment</button>
+            <button mat-flat-button color="accent" class="w-full" [disabled]="!isBooked" (click)="onClick()">Pending Payment</button>
           </section>
         </section>
       </section>

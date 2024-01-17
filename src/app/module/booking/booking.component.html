@@ -1,9 +1,10 @@
+<alert-component *ngIf="errors" (onClose)="errHandler()" [header]="errors.header" [message]="errors.message"></alert-component>
 <main class="w-full mt-10">
   <main class="w-full flex justify-center items-center flex-col">
     <section class="w-full">
     <summery-component></summery-component>
     </section>
-    <section class="w-[80%] flex  flex-col items-center">
+    <section *ngIf="selectVehicle" class="w-[80%] flex  flex-col items-center">
       <section class="w-[80%] flex rounded-xl shadow-xl booking-left-wrapper items-center mb-5 bg-white" id="vehicle-section">
         <section class="w-[45%] p-5 pe-4 flex h-[40vh]"><img [src]="'data:image/png;base64,'+selectVehicle.image" alt="Vehicle-Image" class="rounded-xl w-[100%]"></section>
         <section class="w-[55%] flex flex-col p-5 ps-0 justify-center">
@@ -15,7 +16,7 @@
           <section><p>Seat</p><h1>:</h1><p>{{selectVehicle.seat}}</p></section>
         </section>
       </section>
-      <section class="w-[80%] flex rounded-xl shadow-md booking-left-wrapper bg-white ">
+      <section *ngIf="selectHotel" class="w-[80%] flex rounded-xl shadow-md booking-left-wrapper bg-white ">
         <section class="w-[45%] p-5 pe-4 flex h-[40vh]"><img [src]="'data:image/png;base64,'+selectHotel.image" alt="Hotel-Image" class="rounded-xl w-[100%]"></section>
         <section class="w-[55%] flex flex-col p-5 ps-0 justify-center">
           <section><p>Hotel Name</p><h1>:</h1><p>{{selectHotel.name}}</p></section>

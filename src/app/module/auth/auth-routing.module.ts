@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "./component/login/login.component";
 import {SignComponent} from "./component/sign/sign.component";
 import {AuthComponent} from "./auth.component";
+import {SharedModule} from "../shared/shared.module";
 
 
 const router:Routes=[
@@ -13,6 +14,6 @@ const router:Routes=[
 ];
 @NgModule({
   imports:[RouterModule.forChild(router)],
-  exports:[RouterModule]
+  exports:[RouterModule,SharedModule]
 })
 export class AuthRoutingModule{}

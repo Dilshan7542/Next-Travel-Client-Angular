@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, DoCheck, OnDestroy, OnInit} from "@angular/core";
+import {AfterViewChecked, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {Vehicle, VehicleService} from "../../service/vehicle.service";
 import {Hotel, HotelService} from "../../service/hotel.service";
 import {Subscription} from "rxjs";
@@ -16,9 +16,11 @@ import {Summery, SummeryService} from "./service/summery.service";
   styleUrls:["booking.component.scss"]
 })
 export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
+  @ViewChild("f") hotelSelectRef!:ElementRef<HTMLSelectElement>;
   subscriptionBooking!:Subscription;
  selectVehicle!:Vehicle;
  selectHotel!:Hotel;
+ errors:{header:string,message:string}| null=null;
   summery!:Summery;
  searchSubject!:SearchSubject;
     vehicleCount=1;
@@ -29,13 +31,14 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
         private customerService:CustomerService,
         private travelService:TravelService,
         private summeryService:SummeryService,
-        private searchService:SearchService,
         private router:Router,
     ) {
     }
 
     ngAfterViewChecked(): void {
-       this.vehicleCount=this.summery.vehicleSum.count;
+      setTimeout(()=>{
+      this.vehicleCount=this.summery.vehicleSum.count;
+      },0);
     }
 
 
@@ -43,20 +46,31 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
  bookingBtn:{name:string,status:boolean}={name:"booking",status:false};
 
   ngOnInit(): void {
-    window.scrollTo({top:400});
-    this.subscriptionBooking=this.bookingService.isPendingBookingUpdate.subscribe(()=>{
-        this.initPendingBooking();
-    });
-    this.summery=this.summeryService.summery;
-    this.selectHotel=this.hotelService.selectHotel;
-    this.selectVehicle=this.vehicleService.selectVehicle;
-    this.summeryService.summerySub.next(this.summery);
-    this.searchSubject=this.summeryService.searchSub;
-    this.initPendingBooking();
+      if (this.bookingService.pendingBooking) {
+          this.summery=this.summeryService.summery;
+          this.initPendingBooking();
+      }else{
+        this.initializer();
+      }
+
+  }
+  initializer(){
+      window.scrollTo({top:400});
+      this.subscriptionBooking=this.bookingService.isPendingBookingUpdate.subscribe((data)=>{
+          this.initPendingBooking();
+      });
+      this.summery=this.summeryService.summery;
+      this.selectHotel=this.hotelService.selectHotel;
+      this.selectVehicle=this.vehicleService.selectVehicle;
+      this.summeryService.summerySub.next(this.summery);
+      this.searchSubject=this.summeryService.searchSub;
+      this.initPendingBooking();
   }
 
   ngOnDestroy(): void {
+    if(this.subscriptionBooking){
     this.subscriptionBooking.unsubscribe();
+    }
   }
 
   onChange(value: number) {
@@ -64,6 +78,12 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
     this.summeryService.updateSummery();
   }
   onAddBooking() {
+
+      if (this.summery.hotelSum.option<=0) {
+          this.errors={header:"Not Select Error..!!",message:"Please Select Hotel Option"};
+       this.hotelSelectRef.nativeElement.style.border="red solid 1px";
+          return;
+      }
     let ar = new Date().toJSON().split("T");
     let toDay:{day:string,time:string}={day:ar[0],time:ar[1].substring(0,5)}
     let travel:Travel={
@@ -79,12 +99,10 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
 
     }
     this.travelService.saveTravel(travel).subscribe(travel=>{
-      let hotel=`{"hotelID":${this.selectHotel.hotelID},"name":"${this.selectHotel.name}","option":${this.summeryService.summery.hotelSum.option}}`;
-      let vehicle=Object.assign({},this.selectVehicle);
-      vehicle.image="";
+      this.selectHotel.selectOption=this.summery.hotelSum.option;
     let booking:Booking={
-      hotel:hotel,
-      vehicle:JSON.stringify(vehicle),
+      hotel:JSON.stringify(this.selectHotel),
+      vehicle:JSON.stringify(this.selectVehicle),
       guide:"Danapala",
       travel:JSON.stringify(travel),
       date:toDay.day,
@@ -96,7 +114,7 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
     this.bookingService.saveBooking(booking).subscribe(booking=>{
       this.bookingService.pendingBooking=booking;
         this.initPendingBooking();
-        this.router.navigate(["/home/booking"])
+        this.router.navigate(["/home/booking"]);
     });
     },error => {
       console.error(error);
@@ -109,18 +127,20 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
           this.bookingBtn.name="Booked";
           this.bookingBtn.status=true;
           let booked=this.bookingService.pendingBooking;
-            let travelPromise = this.travelService.searchTravel(JSON.parse(booked.travel).travelID);
-            travelPromise.subscribe(travel=>{
-      this.summery.vehicleSum.count=travel.vehicleCount;
-      this.summery.vehicleSum.cost=travel.vehicleCost!;
-      this.summery.vehicleSum.amount=travel.vehicleCost! * travel.vehicleCount;
-      this.summery.hotelSum.room=travel.room;
-      this.summery.hotelSum.option=JSON.parse(booked.hotel).option;
+         this.travelService.searchTravel(JSON.parse(booked.travel).travelID).subscribe(travel=>{
+             const hotel:Hotel=JSON.parse(booked.hotel);
+             const vehicle:Vehicle=JSON.parse(booked.vehicle);
+             this.selectVehicle=vehicle;
+             this.selectHotel=hotel;
+             this.vehicleService.selectVehicle=vehicle;
+             this.hotelService.selectHotel=hotel;
+      this.summeryService.searchSub={option:{room:travel.room,adult:travel.adult,child:travel.children},
+          travelArea:travel.travelArea,selectDate:{start:travel.startDate,end:travel.endDate}}
       this.summeryService.setCountDate({start:travel.startDate,end:travel.endDate});
-      this.summery.hotelSum.amount=this.summery.hotelSum.option * travel.room * this.summery.countDay;
+      this.summeryService.setHotelAmount(travel.room,hotel.selectOption!,this.summery.countDay);
+      this.summeryService.setVehicleCount({room:travel.room,adult:travel.adult,child:travel.children});
+      this.summeryService.setVehicleAmount();
       this.summeryService.setTotalAmount();
-      this.summeryService.summerySub.next(this.summery);
-
             },(error)=>{
                 throw new Error(error);
             });
@@ -131,4 +151,8 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
       this.bookingBtn.status=false;
     }
   }
+
+    errHandler() {
+        this.errors=null;
+    }
 }

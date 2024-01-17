@@ -28,13 +28,13 @@ export  class Section3Component implements OnInit{
   valueIncrement(name:string,type:boolean) {
     switch (name){
       case "ADULT":
-        this.optionValue.adult=this.optionBarRoute(type,this.optionValue.adult,15);
+        this.optionValue.adult=this.optionBarRoute(type,this.optionValue.adult,1,15);
         break;
       case "CHILD":
         this.optionValue.child=this.optionBarRoute(type,this.optionValue.child);
         break;
       case "ROOM":
-        this.optionValue.room=this.optionBarRoute(type,this.optionValue.room)
+        this.optionValue.room=this.optionBarRoute(type,this.optionValue.room,1);
         break;
       default:
         throw new Error("invalid name input");
@@ -49,13 +49,13 @@ export  class Section3Component implements OnInit{
     this.optionEmitter.emit(option);
     sessionStorage.setItem("options",JSON.stringify(option));
   }
-  optionBarRoute(type:boolean,value:number,endValue?:number){
-    const end:number=endValue===undefined ? 10:endValue;
+  optionBarRoute(type:boolean,value:number,start=0,end=10){
+
     type ? value++:value--;
     if(value>end){
-      value=0;
+      value=start;
     }
-    if(value<0){
+    if(value<start){
       value=end;
     }
     return value;

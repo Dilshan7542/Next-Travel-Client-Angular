@@ -1,16 +1,16 @@
 <header class="w-full h-[8vh] bg-neutral-700 text-white fixed" style="z-index: 10000">
   <nav class="w-full h-full flex justify-between items-center">
     <ul>
-      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/" routerLinkActive="active">Home</a></li>
     </ul>
     <ul *ngIf="!isUserLogin">
-      <li><a routerLink="/auth" (click)="authNavigate()">Login</a></li>
+      <li><a routerLink="/auth" routerLinkActive="active" (click)="authNavigate()">Login</a></li>
       <li><a routerLink="/auth/sign">Sign up</a></li>
     </ul>
     <ul *ngIf="isUserLogin">
-      <li><a routerLink="/home/booking">Payment</a></li>
-      <li><a routerLink="/registered/booked">My Booking</a></li>
-      <li><a routerLink="/registered/profile">My Profile</a></li>
+      <li *ngIf="isPendingBooking"><a routerLink="/home/booking" routerLinkActive="active">Payment</a></li>
+      <li><a routerLink="/registered/booked" routerLinkActive="active">My Booking</a></li>
+      <li><a routerLink="/registered/profile" routerLinkActive="active">My Profile</a></li>
       <li><a (click)="logOut()">Logout</a></li>
     </ul>
   </nav>

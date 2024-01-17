@@ -10,6 +10,7 @@ export interface Hotel{
   location:string;
   starRate:string;
   tel:string;
+  selectOption?:number;
   hotelOption?:{option1:number,option2:number,option3:number,option4:number}[];
 }
 @Injectable({providedIn:"root"})

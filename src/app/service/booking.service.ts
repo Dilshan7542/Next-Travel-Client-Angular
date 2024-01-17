@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Customer} from "./customer.service";
+import {Customer, CustomerService} from "./customer.service";
 import {Hotel} from "./hotel.service";
 import {Travel} from "./travel.service";
 import {Vehicle} from "./vehicle.service";
@@ -44,20 +44,21 @@ export class BookingService {
     path=environment.url+"/customer/api/v1/booking";
     bookingListData=new Subject<Booking[]>();
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient,private customerService:CustomerService) {
 
   }
   getBookedList(){
-    return this.http.get<Booking[]>(this.path).pipe(tap(data=>{
-             this.bookingList=data;
-             this.bookingListData.next(data);
-      }));
+    return this.searchBookingList(this.customerService.customer?.customerID!);
+  }
+  searchBookingList(bookingID:number){
+    return this.http.get<Booking[]>(this.path+"/search/customer?customerID="+bookingID).pipe(tap(data=>{
+      this.bookingList=data;
+      console.log(data);
+      this.bookingListData.next(data);
+    }));
   }
   cancelPendingBooking(bookingID:number){
-      return this.http.delete<void>(this.path+"?bookingID="+bookingID).subscribe(()=>{
-              this.getBookedList().subscribe();
-              this.pendingBooking=null;
-      });
+      return this.http.delete<void>(this.path+"?bookingID="+bookingID);
   }
   updatePaidBooking(booking:Booking){
     return this.http.put<Booking>(this.path,booking).pipe(map(data=>{
@@ -86,6 +87,20 @@ export class BookingService {
         }
     }));
   }
+  makePayment(){
+    if (this.pendingBooking) {
+      this.pendingBooking.paymentStatus=true;
+      console.log(this.pendingBooking);
+   return  this.http.put<void>(this.path+"/payment",this.pendingBooking).pipe(take(1),tap(()=>{
+     this.pendingBooking=null;
+   }));
+    }
+    return null;
+  }
+clear(){
+    this.pendingBooking=null;
+    this.bookingList=[];
 
+}
 
 }

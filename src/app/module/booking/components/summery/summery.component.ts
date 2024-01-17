@@ -12,14 +12,18 @@ import {Summery, SummeryService} from "../../service/summery.service";
 
 })
 export class SummeryComponent implements OnInit{
- summery: Summery | null = null;
-  selectHotel!:Hotel;
+    summery:Summery ={
+        countDay:1,
+        hotelSum:{option:0,room:1,cost:0,amount:0},
+        vehicleSum:{fee1Day:0,fee1KM:0,fuel1KM:0,cost:0,amount:0,count:1},
+        totalSum:0,
+    };
+
   selectVehicle!:Vehicle;
   constructor(
       private summeryService:SummeryService,
       private vehicleService: VehicleService,
-      private hotelService: HotelService,
-      private searchService: SearchService
+
   ) {
   }
   ngOnInit(): void {
@@ -27,7 +31,7 @@ export class SummeryComponent implements OnInit{
     this.summeryService.summerySub.subscribe(data=>{
         this.summery=data;
     });
-    this.selectHotel=this.hotelService.selectHotel;
+
     this.selectVehicle=this.vehicleService.selectVehicle;
   }
 

@@ -1,6 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, NgForm, NgModel, Validators} from "@angular/forms";
 import {Customer, CustomerService} from "../../../../service/customer.service";
+import {Route, Router} from "@angular/router";
+import {AuthService} from "../../../../service/auth/auth.service";
 
 
 
@@ -23,7 +25,7 @@ import {Customer, CustomerService} from "../../../../service/customer.service";
 export class SignComponent implements OnInit{
 isPwdConform=true;
   formSignGroup!:FormGroup;
-  constructor(private customerService:CustomerService) {
+  constructor(private customerService:CustomerService,private router:Router,private authService:AuthService) {
 
   }
 
@@ -54,7 +56,8 @@ isPwdConform=true;
     customer.pwd=pwdData.get("pwd")?.value;
     }
     this.customerService.registerCustomer(customer).subscribe(data=>{
-      console.log(data);
+     this.router.navigate(["/auth"]);
+
     });
   }
   isConformPassword(formGroup:AbstractControl):{ notMatch: boolean } | null  {

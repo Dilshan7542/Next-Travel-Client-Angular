@@ -9,6 +9,7 @@ import {
   UrlTree
 } from "@angular/router";
 import {map, Observable, take, tap} from "rxjs";
+import {CustomerService} from "../customer.service";
 
 
 @Injectable({
@@ -16,19 +17,23 @@ import {map, Observable, take, tap} from "rxjs";
 })
 export class AuthGuard implements CanActivate{
 
-  constructor(private authService:AuthService,private router:Router,private activeRouter:ActivatedRoute) {
+  constructor(private authService:AuthService,private customerService:CustomerService,private router:Router,private activeRouter:ActivatedRoute) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let userDetail = sessionStorage.getItem("userCredential");
+    let userCredential = sessionStorage.getItem("userCredential");
       let auth = sessionStorage.getItem("Auth");
-      if(auth && userDetail){
-       const userCredential=JSON.parse(userDetail);
-       this.authService.authCredential=userCredential;
-        this.authService.isLoginUser.next(userCredential);
+    this.authService.navigateUrl= state.url;
+      if(auth && userCredential){
+       const userCredentials=JSON.parse(userCredential);
+       this.authService.authCredential=userCredentials;
+        this.authService.isLoginUser.next(userCredentials);
+        let customer = sessionStorage.getItem("userDetail");
+        if(customer)
+        this.customerService.customer=JSON.parse(customer);
         return true;
       }else{
-        this.authService.navigateUrl= state.url;
+
         this.router.navigate(["/auth"]);
         return false;
       }

@@ -47,6 +47,9 @@ export class TravelService{
   reject("Error..Travel Empty");
   });
 }
+deleteTravel(travelID:number){
+      return this.http.delete(this.path+"/"+travelID);
+}
 searchTravel(travelID:number){
     return  this.http.get<Travel>(this.path+"/search/"+travelID).pipe(map(data=>{
         if(data){

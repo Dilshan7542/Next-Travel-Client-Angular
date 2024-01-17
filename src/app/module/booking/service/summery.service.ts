@@ -5,6 +5,7 @@ import {Injectable} from "@angular/core";
 import {TravelService} from "../../../service/travel.service";
 import {SearchService, SearchSubject} from "../../../service/search.service";
 import {Subject} from "rxjs";
+import {BookingService} from "../../../service/booking.service";
 
 export interface Summery {
   vehicleSum:VehicleSum;
@@ -35,8 +36,8 @@ adult:number,child:number,room:number
 }
 @Injectable()
 export class SummeryService{
-   // selectVehicle:VehicleService | null=null;
-  //  selectHotel:HotelService | null=null;
+    selectVehicle:VehicleService | null=null;
+   selectHotel:HotelService | null=null;
     searchSub!:SearchSubject;
     summerySub=new Subject<Summery>();
     summery:Summery ={
@@ -48,9 +49,9 @@ export class SummeryService{
 
   constructor(
     private vehicleService:VehicleService,
-    private hotelService:HotelService,
-    private travelService:TravelService,
-    private searchService:SearchService
+    private searchService:SearchService,
+    private bookingService:BookingService
+
   ) {
     this.initializer();
   }
@@ -66,7 +67,9 @@ export class SummeryService{
       this.setTotalAmount();  // final Amount
        this.summerySub.next(this.summery);
     });
+   if(this.searchService.searchSubject){
    this.updateSummery();
+   }
   }
   updateSummery(){
     this.searchSub=this.searchService.searchSubject;

@@ -31,6 +31,7 @@ validUserDetail(authCredential:AuthCredential){
           }
       }
       this.authCredential=authCredential;
+
       sessionStorage.setItem("userCredential",JSON.stringify(authCredential));
       sessionStorage.setItem("Auth",err.headers.get("Authorization")!);
       this.isLoginUser.next(authCredential);
@@ -54,16 +55,9 @@ searchByEmailUser(authCredential:AuthCredential){
   }
   logOut(){
     this.authCredential=null;
-    this.navigateUrl="/";
+    this.navigateUrl="/home";
+    sessionStorage.clear();
     this.navigate();
-    sessionStorage.removeItem("userCredential");
-    sessionStorage.removeItem("Auth");
-    sessionStorage.removeItem("location");
-    sessionStorage.removeItem("selectDate");
-    sessionStorage.removeItem("selectHotel");
-    sessionStorage.removeItem("selectVehicle");
-    sessionStorage.removeItem("options");
-    sessionStorage.removeItem("searchSubject");
 
 
   }
