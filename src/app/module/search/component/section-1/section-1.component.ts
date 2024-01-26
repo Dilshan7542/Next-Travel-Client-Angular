@@ -15,8 +15,11 @@ export class Section1Component implements OnInit{
   }
   test="";
   onSelect(selectElement:string) {
+    if(selectElement==="Location"){
+      this.travelAreaList.splice(0,1);
+      return;
+    }
     this.hotelService.searchByLocation(selectElement);
-    if(selectElement==="All")return;
     for (let travelArea of this.travelAreaList) {
           if(selectElement===travelArea.areaName){
     this.onSelectLocation.emit(travelArea);
@@ -27,20 +30,24 @@ export class Section1Component implements OnInit{
   }
 
   ngOnInit(): void {
-    const location:string | null= sessionStorage.getItem("location");
     this.travelAreaList=this.travelAreaService.travelAreaList;
     this.travelAreaService.travelAreaData.subscribe(data=>{
       this.travelAreaList=data;
+      this.loadLocation();
     });
-    if(location){
-      const locationDetail:TravelArea=JSON.parse(location);
-      this.travelAreaList= this.travelAreaList.filter(area=> area.areaName!==locationDetail.areaName);
-    this.travelAreaList.unshift(locationDetail);
-    this.onSelectLocation.emit(locationDetail);
-    }else{
-    this.travelAreaList.unshift({travelAreaID:0,areaName:"Location",fullKM:0});
-    }
+  this.loadLocation();
 
   }
-
+loadLocation(){
+  const location:string | null= sessionStorage.getItem("location");
+  if(location){
+    const locationDetail:TravelArea=JSON.parse(location);
+    this.travelAreaList= this.travelAreaList.filter(area=> area.areaName!==locationDetail.areaName);
+    this.travelAreaList.unshift(locationDetail);
+    this.onSelectLocation.emit(locationDetail);
+  }else{
+    this.travelAreaList.unshift({travelAreaID:0,areaName:"Location",fullKM:0});
+    console.log(this.travelAreaList);
+  }
+}
 }

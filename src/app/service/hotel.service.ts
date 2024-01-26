@@ -41,10 +41,6 @@ export class HotelService implements OnInit{
 
   }
   searchByLocation(location:string){
-    if(location==="All"){
-      this.hotelDataList.next(this.hotelList);
-      return this.hotelList;
-    }
     const list:Hotel[]=[];
     for (let hotel of this.hotelList) {
           if(hotel.location===location){

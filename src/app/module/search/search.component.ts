@@ -54,7 +54,7 @@ export class SearchComponent implements OnInit,OnDestroy{
     }
 
   onSearch() {
-    if(!this.selectLocation){
+    if(!this.selectLocation || this.selectLocation?.areaName==="Location"){
       this.error="Please Select Location!!"
     }else{
       if(!this.selectDate.start){

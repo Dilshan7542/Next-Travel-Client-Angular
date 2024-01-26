@@ -15,7 +15,6 @@ error:string |null=null;
 
   onSubmit(ngForm: NgForm) {
     const credential:AuthCredential=ngForm.value;
-    sessionStorage.clear();
     this.authService.validUserDetail(credential)
       .subscribe(data=>{
       console.log(data.body);
