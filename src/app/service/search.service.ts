@@ -8,7 +8,11 @@ import {TravelArea} from "./travel-area.service";
 @Injectable({providedIn:"root"})
 export class SearchService{
   serviceDetailSub=new Subject<SearchSubject>();
-  searchSubject!:SearchSubject;
+  searchSubject:SearchSubject={
+    option:{child:0,adult:1,room:1},
+    selectDate:{start:new Date().toDateString(),end:new Date().toDateString()},
+    travelArea:{travelAreaID:0,areaName:"",fullKM:0}
+  };
   isSearch=false;
 
   constructor() {
@@ -21,7 +25,7 @@ export class SearchService{
   }
   setSelectData(data:SearchSubject){
     this.searchSubject=data;
-    this.serviceDetailSub.next({option:data.option,travelArea:data.travelArea,selectDate:data.selectDate});
+    this.serviceDetailSub.next(data);
     this.isSearch=true;
   }
 

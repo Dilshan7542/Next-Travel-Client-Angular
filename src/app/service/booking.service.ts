@@ -53,7 +53,6 @@ export class BookingService {
   searchBookingList(bookingID:number){
     return this.http.get<Booking[]>(this.path+"/search/customer?customerID="+bookingID).pipe(tap(data=>{
       this.bookingList=data;
-      console.log(data);
       this.bookingListData.next(data);
     }));
   }

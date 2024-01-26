@@ -46,6 +46,13 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
  bookingBtn:{name:string,status:boolean}={name:"booking",status:false};
 
   ngOnInit(): void {
+        if(this.summeryService.subscription){
+          if(this.summeryService.subscription.closed){
+            console.log("is close");
+          this.summeryService.initializer();
+          }
+        }
+
       if (this.bookingService.pendingBooking) {
           this.summery=this.summeryService.summery;
           this.initPendingBooking();
@@ -70,6 +77,9 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
   ngOnDestroy(): void {
     if(this.subscriptionBooking){
     this.subscriptionBooking.unsubscribe();
+    }
+    if(this.summeryService.subscription){
+      this.summeryService.subscription.unsubscribe();
     }
   }
 

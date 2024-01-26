@@ -4,7 +4,7 @@ import {HotelService} from "../../../service/hotel.service";
 import {Injectable} from "@angular/core";
 import {TravelService} from "../../../service/travel.service";
 import {SearchService, SearchSubject} from "../../../service/search.service";
-import {Subject} from "rxjs";
+import {Subject, Subscription} from "rxjs";
 import {BookingService} from "../../../service/booking.service";
 
 export interface Summery {
@@ -39,6 +39,7 @@ export class SummeryService{
     selectVehicle:VehicleService | null=null;
    selectHotel:HotelService | null=null;
     searchSub!:SearchSubject;
+    subscription!:Subscription;
     summerySub=new Subject<Summery>();
     summery:Summery ={
       countDay:1,
@@ -56,7 +57,9 @@ export class SummeryService{
     this.initializer();
   }
   initializer(){
-   this.searchService.serviceDetailSub.subscribe(data=>{
+    console.log("Summery init");
+    this.searchSub=this.searchService.searchSubject;
+  this.subscription=this.searchService.serviceDetailSub.subscribe(data=>{
       this.searchSub=data;
       this.setVehicleCount(data.option);
       this.setCountDate(data.selectDate);
