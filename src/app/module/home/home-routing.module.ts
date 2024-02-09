@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./home.component";
 import {CategoryComponent} from "./component/category/category.component";
 import {AuthGuard} from "../../service/guard/auth.guard";
+import {bookingLoadResolver} from "../../service/resolve/routing.resolver";
 
 
 const route:Routes=[{path:"",component:HomeComponent,children:[

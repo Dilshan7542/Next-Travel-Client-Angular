@@ -47,7 +47,6 @@ loadLocation(){
     this.onSelectLocation.emit(locationDetail);
   }else{
     this.travelAreaList.unshift({travelAreaID:0,areaName:"Location",fullKM:0});
-    console.log(this.travelAreaList);
   }
 }
 }

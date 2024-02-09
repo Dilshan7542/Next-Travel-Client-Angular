@@ -17,7 +17,6 @@ error:string |null=null;
     const credential:AuthCredential=ngForm.value;
     this.authService.validUserDetail(credential)
       .subscribe(data=>{
-      console.log(data.body);
       this.customerService.customer=data.body;
       sessionStorage.setItem("userDetail",JSON.stringify(data.body));
     },(e)=>{

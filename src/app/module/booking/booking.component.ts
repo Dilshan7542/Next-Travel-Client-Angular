@@ -46,14 +46,14 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
  bookingBtn:{name:string,status:boolean}={name:"booking",status:false};
 
   ngOnInit(): void {
+
         if(this.summeryService.subscription){
           if(this.summeryService.subscription.closed){
-            console.log("is close");
           this.summeryService.initializer();
           }
         }
 
-      if (this.bookingService.pendingBooking) {
+    if (this.bookingService.pendingBooking) {
           this.summery=this.summeryService.summery;
           this.initPendingBooking();
       }else{
@@ -146,11 +146,13 @@ export class BookingComponent implements OnInit,OnDestroy,AfterViewChecked{
              this.hotelService.selectHotel=hotel;
       this.summeryService.searchSub={option:{room:travel.room,adult:travel.adult,child:travel.children},
           travelArea:travel.travelArea,selectDate:{start:travel.startDate,end:travel.endDate}}
+           this.summery.travelArea=travel.travelArea;
       this.summeryService.setCountDate({start:travel.startDate,end:travel.endDate});
       this.summeryService.setHotelAmount(travel.room,hotel.selectOption!,this.summery.countDay);
       this.summeryService.setVehicleCount({room:travel.room,adult:travel.adult,child:travel.children});
       this.summeryService.setVehicleAmount();
       this.summeryService.setTotalAmount();
+      this.summeryService.summerySub.next(this.summeryService.summery);
             },(error)=>{
                 throw new Error(error);
             });

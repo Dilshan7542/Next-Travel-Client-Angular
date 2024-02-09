@@ -30,6 +30,7 @@ export class SummeryComponent implements OnInit{
     this.summery=this.summeryService.summery;
     this.summeryService.summerySub.subscribe(data=>{
         this.summery=data;
+      this.selectVehicle=this.vehicleService.selectVehicle;
     });
 
     this.selectVehicle=this.vehicleService.selectVehicle;

@@ -11,6 +11,7 @@ export const  pendingBookingGuard:CanActivateFn=(route, state) => {
   let authService = inject(AuthService);
   if (authService.authCredential) {
       authService.navigateUrl=state.url;
+
     if (state.url!=="/home/booking") {
      const r= inject(Router);
          const customer= sessionStorage.getItem("userDetail");
@@ -23,6 +24,7 @@ export const  pendingBookingGuard:CanActivateFn=(route, state) => {
         bookingService.checkPendingBooking();
         bookingService.isPendingBookingUpdate.next();
       if(bookingService.pendingBooking){
+        console.log(bookingService.pendingBooking);
         r.navigate(['/home/booking']);
       }
       sub.unsubscribe();
@@ -30,6 +32,7 @@ export const  pendingBookingGuard:CanActivateFn=(route, state) => {
 
     }
            if(bookingService.pendingBooking){
+        console.log(bookingService.pendingBooking);
              r.navigate(['/home/booking']);
            }
          }

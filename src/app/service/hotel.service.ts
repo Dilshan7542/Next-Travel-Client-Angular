@@ -16,8 +16,10 @@ export interface Hotel{
 @Injectable({providedIn:"root"})
 export class HotelService implements OnInit{
   hotelList:Hotel[]=[];
+  copyHotelList:Hotel[]=[];
   selectHotel!:Hotel;
   hotelDataList=new Subject<Hotel[]>();
+  onSelectLocation="";
   hotelAmount=0;
   selectHotelOption=0;
   roomCount=1;
@@ -36,17 +38,19 @@ export class HotelService implements OnInit{
   getAllHotel() {
    return this.http.get<Hotel[]>(environment.url+"/hotel/api/v1/hotel/all").pipe(tap(data=>{
      this.hotelList=data;
-     this.hotelDataList.next(data);
+    this.searchByLocation(this.onSelectLocation);
    }));
 
   }
   searchByLocation(location:string){
+    this.onSelectLocation=location;
     const list:Hotel[]=[];
     for (let hotel of this.hotelList) {
           if(hotel.location===location){
             list.push(hotel);
           }
     }
+    this.copyHotelList=list;
     this.hotelDataList.next(list);
     return list;
   }

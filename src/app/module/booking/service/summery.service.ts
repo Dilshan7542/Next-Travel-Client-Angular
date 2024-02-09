@@ -54,11 +54,10 @@ export class SummeryService{
     private bookingService:BookingService
 
   ) {
+
     this.initializer();
   }
   initializer(){
-    console.log("Summery init");
-    this.searchSub=this.searchService.searchSubject;
   this.subscription=this.searchService.serviceDetailSub.subscribe(data=>{
       this.searchSub=data;
       this.setVehicleCount(data.option);
@@ -75,7 +74,8 @@ export class SummeryService{
    }
   }
   updateSummery(){
-    this.searchSub=this.searchService.searchSubject;
+    console.log("upadateeeeee,,sum");
+    this.searchSub=this.searchService.searchSubject!;
     this.setVehicleCount(this.searchSub.option);
     this.setCountDate(this.searchSub.selectDate);
     this.setVehicleAmount();

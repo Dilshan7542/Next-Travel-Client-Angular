@@ -29,7 +29,7 @@ export class HotelComponent implements OnInit,OnDestroy,AfterViewInit{
   hotelAr:Hotel[]=[];
 
   ngOnInit(): void {
-    this.hotelAr=this.hotelService.hotelList;
+    this.hotelAr=this.hotelService.copyHotelList;
     if(this.hotelAr.length===0){
     this.isLoading=true;
     }
